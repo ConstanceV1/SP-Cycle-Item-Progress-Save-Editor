@@ -261,7 +261,7 @@
       "category": "materials",
       "rarity": "common",
       "maxDurability": -1,
-      "icon": "textiles.png",
+      "icon": "Textiles.png",
       "maxStackSize": 10,
       "attachment_weapon": "",
       "attachment_type": ""
@@ -481,7 +481,7 @@
       "category": "armor",
       "rarity": "legendary",
       "maxDurability": 1000,
-      "icon": "legoshield.png",
+      "icon": "Legoshield.png",
       "maxStackSize": 1,
       "attachment_weapon": "",
       "attachment_type": ""
@@ -881,7 +881,7 @@
       "category": "materials",
       "rarity": "uncommon",
       "maxDurability": -1,
-      "icon": "resingun.png",
+      "icon": "ResinGun.png",
       "maxStackSize": 10,
       "attachment_weapon": "",
       "attachment_type": ""
@@ -931,7 +931,7 @@
       "category": "materials",
       "rarity": "uncommon",
       "maxDurability": -1,
-      "icon": "radioequipment.png",
+      "icon": "RadioEquipment.png",
       "maxStackSize": 10,
       "attachment_weapon": "",
       "attachment_type": ""
@@ -981,7 +981,7 @@
       "category": "materials",
       "rarity": "epic",
       "maxDurability": -1,
-      "icon": "portablelab.png",
+      "icon": "PortableLab.png",
       "maxStackSize": 10,
       "attachment_weapon": "",
       "attachment_type": ""
@@ -1071,7 +1071,7 @@
       "category": "materials",
       "rarity": "common",
       "maxDurability": -1,
-      "icon": "oldmedicine.png",
+      "icon": "OldMedicine.png",
       "maxStackSize": 10,
       "attachment_weapon": "",
       "attachment_type": ""
@@ -1431,7 +1431,7 @@
       "category": "materials",
       "rarity": "uncommon",
       "maxDurability": -1,
-      "icon": "medicalsupplies.png",
+      "icon": "MedicalSupplies.png",
       "maxStackSize": 10,
       "attachment_weapon": "",
       "attachment_type": ""
@@ -2692,7 +2692,7 @@
       "category": "materials",
       "rarity": "rare",
       "maxDurability": -1,
-      "icon": "biologicalsampler.png",
+      "icon": "BiologicalSampler.png",
       "maxStackSize": 10,
       "attachment_weapon": "",
       "attachment_type": ""
@@ -2832,7 +2832,7 @@
       "category": "materials",
       "rarity": "common",
       "maxDurability": -1,
-      "icon": "aluminumscrap.png",
+      "icon": "AluminumScrap.png",
       "maxStackSize": 10,
       "attachment_weapon": "",
       "attachment_type": ""
@@ -2912,7 +2912,7 @@
       "category": "attachments",
       "rarity": "epic",
       "maxDurability": -1,
-      "icon": "8xoptic.png",
+      "icon": "8xOptic.png",
       "maxStackSize": 1,
       "attachment_weapon": "all",
       "attachment_type": "optic"
@@ -2922,7 +2922,7 @@
       "category": "attachments",
       "rarity": "epic",
       "maxDurability": -1,
-      "icon": "6xoptic.png",
+      "icon": "6xOptic.png",
       "maxStackSize": 1,
       "attachment_weapon": "all",
       "attachment_type": "optic"
