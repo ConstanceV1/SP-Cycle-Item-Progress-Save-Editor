@@ -3,87 +3,84 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SP Cycle Item/Progress Save Editor</title>
+    <title>The Cycle: Reborn - Save Editor</title>
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-0: #080a0d;
-            --bg-1: #0d1113;
-            --bg-2: #12181a;
-            --bg-3: #182124;
-            --bg-4: #202b2d;
-            --bg-card: #141d20;
-            --bg-hover: #1b282b;
-            --bg-input: #0b1012;
-            --border-1: rgba(143, 164, 153, 0.16);
-            --border-2: rgba(143, 164, 153, 0.28);
-            --border-3: rgba(143, 164, 153, 0.46);
-            --text-1: #edf3ef;
-            --text-2: #b5c2bc;
-            --text-3: #7d8d86;
-            --text-4: #53615c;
-            --accent-cyan: #6eb5d0;
-            --accent-cyan-dim: rgba(110, 181, 208, 0.12);
-            --accent-purple: #9fb88a;
-            --accent-purple-dim: rgba(159, 184, 138, 0.12);
-            --accent-blue: #4da7d3;
-            --accent-pink: #dc8f72;
-            --accent-orange: #e29a54;
-            --accent-green: #91c47c;
-            --accent-red: #d36d67;
-            --accent-yellow: #e6c476;
-            --gradient-primary: linear-gradient(135deg, #4d8f9e 0%, #79b4bd 100%);
-            --gradient-accent: linear-gradient(135deg, #6eaec0 0%, #9ebc95 100%);
-            --shadow-sm: 0 3px 12px rgba(0, 0, 0, 0.24);
-            --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.30);
-            --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.52);
-            --shadow-glow-cyan: 0 0 24px rgba(110, 181, 208, 0.11);
-            --shadow-glow-purple: 0 0 24px rgba(159, 184, 138, 0.10);
-            --radius-xs: 5px;
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 20px;
-            --radius-2xl: 26px;
+        /* ============================================================
+           CSS VARIABLES & RESET
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        html, body {
+        :root {
+            --bg-primary: #0b0e1a;
+            --bg-secondary: #12162a;
+            --bg-card: rgba(22, 28, 58, 0.8);
+            --bg-glass: rgba(255, 255, 255, 0.04);
+            --border-glass: rgba(255, 255, 255, 0.06);
+            --text-primary: #f0f4ff;
+            --text-secondary: #8896b5;
+            --text-muted: #4a5578;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #7c3aed;
+            --accent-pink: #ec4899;
+            --accent-orange: #f59e0b;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --shadow-glow: 0 8px 32px rgba(0, 212, 255, 0.08);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html,
+        body {
             height: 100%;
             overflow: hidden;
-            font-family: 'Inter', sans-serif;
-            background:
-                radial-gradient(circle at 76% 5%, rgba(87, 132, 114, 0.09), transparent 30%),
-                radial-gradient(circle at 12% 80%, rgba(37, 96, 117, 0.07), transparent 26%),
-                var(--bg-0);
-            color: var(--text-1);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            user-select: none;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
         }
 
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--border-3); }
+        /* ============================================================
+           SCROLLBAR
+           ============================================================ */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-cyan);
+            border-radius: 4px;
+            opacity: 0.5;
+        }
 
+        /* ============================================================
+           TITLE BAR
+           ============================================================ */
         .title-bar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            height: 48px;
-            background: rgba(11, 15, 16, 0.92);
-            border-bottom: 1px solid var(--border-1);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
+            height: 36px;
+            background: rgba(11, 14, 26, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 20px;
+            padding: 0 16px;
             z-index: 9999;
+            border-bottom: 1px solid var(--border-glass);
             -webkit-app-region: drag;
             user-select: none;
         }
@@ -91,200 +88,153 @@
         .title-bar .brand {
             display: flex;
             align-items: center;
-            gap: 11px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--text-2);
+            gap: 10px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
             -webkit-app-region: no-drag;
         }
 
-        .title-bar .brand .logo-badge {
-            width: 25px;
-            height: 25px;
-            background: linear-gradient(145deg, #d99b5b 0%, #7b5635 100%);
-            color: #111514;
-            border: 1px solid rgba(236, 192, 128, 0.42);
-            box-shadow: 0 0 0 4px rgba(217, 155, 91, 0.07), 0 8px 24px rgba(0,0,0,.25);
-            border-radius: 6px;
+        .title-bar .brand .logo {
+            width: 18px;
+            height: 18px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 700;
-        }
-
-        .title-bar .brand .brand-name {
-            font-weight: 700;
-            color: var(--text-1);
-            font-size: 11px;
-            letter-spacing: 0.11em;
-        }
-
-        .title-bar .brand .brand-version {
-            font-size: 9px;
-            color: #b5a487;
-            background: rgba(220, 162, 88, 0.10);
-            border: 1px solid rgba(220, 162, 88, 0.18);
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-weight: 500;
-            letter-spacing: 0.04em;
+            color: #fff;
         }
 
         .title-bar .brand .status-dot {
-            width: 7px;
-            height: 7px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: var(--accent-red);
-            transition: var(--transition-base);
-            margin-left: 5px;
+            transition: var(--transition);
         }
         .title-bar .brand .status-dot.connected {
             background: var(--accent-green);
-            box-shadow: 0 0 12px rgba(52, 211, 153, 0.5);
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
         }
 
         .title-controls {
             display: flex;
-            gap: 2px;
+            gap: 4px;
             -webkit-app-region: no-drag;
         }
 
         .title-controls button {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             border: none;
             background: transparent;
-            color: var(--text-3);
+            color: var(--text-muted);
             border-radius: 6px;
             cursor: pointer;
-            font-size: 11px;
-            transition: var(--transition-fast);
+            font-size: 12px;
+            transition: var(--transition);
             display: flex;
             align-items: center;
             justify-content: center;
         }
+
         .title-controls button:hover {
-            background: var(--bg-3);
-            color: var(--text-1);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-primary);
         }
-        .title-controls .close-btn:hover {
+        .title-controls .close:hover {
             background: var(--accent-red);
             color: #fff;
         }
 
+        /* ============================================================
+           APP LAYOUT
+           ============================================================ */
         .app {
             display: flex;
             height: 100vh;
-            padding-top: 48px;
-            background: transparent;
+            padding-top: 36px;
+            background: var(--bg-primary);
             position: relative;
         }
 
+        /* ============================================================
+           SIDEBAR
+           ============================================================ */
         .sidebar {
-            width: 204px;
-            background: rgba(12, 17, 18, 0.90);
-            border-right: 1px solid var(--border-1);
-            padding: 16px 12px;
+            width: 64px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-glass);
+            padding: 12px 8px;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            align-items: center;
+            gap: 6px;
             flex-shrink: 0;
             overflow-y: auto;
             position: relative;
             z-index: 10;
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
         }
 
         .sidebar .logo-icon {
-            width: 100%;
-            height: 48px;
-            background: linear-gradient(145deg, #d99b5b 0%, #7b5635 100%);
-            color: #111514;
-            border: 1px solid rgba(236, 192, 128, 0.42);
-            box-shadow: 0 0 0 4px rgba(217, 155, 91, 0.07), 0 8px 24px rgba(0,0,0,.25);
-            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            gap: 12px;
-            padding: 0 14px;
-            margin-bottom: 15px;
-            font-size: 17px;
+            justify-content: center;
+            font-size: 16px;
             font-weight: 700;
-            flex-shrink: 0;
-        }
-        .sidebar .logo-icon::after {
-            content: 'CYCLE CONSOLE';
-            color: #e5c18b;
-            font-family: 'Inter', sans-serif;
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: .12em;
+            color: #fff;
+            margin-bottom: 8px;
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.15);
         }
 
         .sidebar .sep {
-            width: 100%;
+            width: 30px;
             height: 1px;
-            background: var(--border-1);
-            margin: 11px 0;
-            flex-shrink: 0;
+            background: var(--border-glass);
+            margin: 4px 0;
         }
 
         .sidebar-btn {
-            width: 100%;
+            width: 44px;
             height: 44px;
             border: none;
-            border-radius: 9px;
+            border-radius: var(--radius-sm);
             background: transparent;
-            color: #708078;
+            color: var(--text-muted);
             cursor: pointer;
-            transition: var(--transition-base);
-            font-size: 14px;
+            transition: var(--transition);
+            font-size: 16px;
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            gap: 13px;
-            padding: 0 14px;
+            justify-content: center;
             position: relative;
-            flex-shrink: 0;
         }
 
         .sidebar-btn:hover {
-            background: rgba(133, 166, 153, 0.09);
-            color: var(--text-1);
-            transform: translateY(-1px);
+            background: var(--bg-glass);
+            color: var(--text-primary);
         }
 
         .sidebar-btn.active {
-            background: rgba(110, 181, 208, 0.13);
-            color: #81c1d8;
-            box-shadow: inset 3px 0 0 #6eb5d0, 0 0 0 1px rgba(110, 181, 208, .08);
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-cyan);
+            box-shadow: inset 0 0 20px rgba(0, 212, 255, 0.05);
         }
-
-        .sidebar-btn .sidebar-label {
-            display: inline-block;
-            color: #a9b9b0;
-            font-family: 'Inter', sans-serif;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: .10em;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-        .sidebar-btn:hover .sidebar-label { color: var(--text-1); }
-        .sidebar-btn.active .sidebar-label { color: #b8d8e0; }
 
         .sidebar-btn .badge {
             position: absolute;
-            top: 3px;
-            right: 3px;
-            width: 15px;
-            height: 15px;
-            font-size: 7px;
+            top: 4px;
+            right: 4px;
+            width: 16px;
+            height: 16px;
+            font-size: 8px;
             font-weight: 700;
             background: var(--accent-pink);
             color: #fff;
@@ -292,119 +242,107 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid var(--bg-1);
         }
 
-        .sidebar-btn#clear-btn:hover .sidebar-label { color: var(--accent-red); }
+        .sidebar-btn .tooltip {
+            position: absolute;
+            left: 56px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-glass);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            font-weight: 500;
+        }
 
+        .sidebar-btn:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* ============================================================
+           MAIN CONTENT
+           ============================================================ */
         .main {
             flex: 1;
             display: flex;
             flex-direction: column;
-            padding: 22px 28px 16px;
+            padding: 16px 20px 12px 20px;
             overflow: hidden;
             min-width: 0;
-            background: transparent;
         }
 
+        /* ============================================================
+           HEADER
+           ============================================================ */
         .header {
-            position: relative;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            min-height: 82px;
-            padding: 18px 22px;
-            background: linear-gradient(110deg, rgba(19, 29, 31, .96), rgba(15, 22, 24, .92));
-            border: 1px solid rgba(147, 170, 159, .18);
-            border-radius: 13px;
-            margin-bottom: 16px;
+            padding: 12px 16px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            margin-bottom: 12px;
             flex-shrink: 0;
             flex-wrap: wrap;
             gap: 8px;
-            box-shadow: var(--shadow-sm);
-            overflow: hidden;
-        }
-        .header::after {
-            content: '';
-            position: absolute;
-            width: 210px;
-            height: 210px;
-            right: 10%;
-            top: -140px;
-            border-radius: 50%;
-            border: 1px solid rgba(178, 204, 186, .08);
-            box-shadow: 0 0 0 24px rgba(178, 204, 186, .025), 0 0 0 48px rgba(178, 204, 186, .018);
-            pointer-events: none;
         }
 
         .header-left {
             display: flex;
             align-items: center;
-            gap: 14px;
-            min-width: 0;
-            z-index: 1;
+            gap: 12px;
         }
 
         .header-left h2 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-1);
-            letter-spacing: -0.02em;
-        }
-        .header-left h2::before {
-            content: 'ACTIVE LOADOUT';
-            display: block;
-            margin-bottom: 4px;
-            color: #738b80;
-            font-size: 8px;
-            letter-spacing: .16em;
-            font-weight: 700;
+            font-size: 16px;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .header-left .count-badge {
-            font-size: 10px;
-            color: #9db1a7;
-            background: rgba(110, 181, 208, .09);
-            border: 1px solid rgba(110, 181, 208, .18);
-            padding: 3px 10px;
+        .header-left .count {
+            font-size: 11px;
+            color: var(--text-muted);
+            background: var(--bg-glass);
+            padding: 2px 10px;
             border-radius: 12px;
-            font-weight: 500;
-            letter-spacing: 0.03em;
+            border: 1px solid var(--border-glass);
         }
 
         .header-right {
             display: flex;
             align-items: center;
-            gap: 9px;
+            gap: 8px;
             flex-wrap: wrap;
-            z-index: 1;
         }
 
         .currency-group {
             display: flex;
-            gap: 5px;
-            background: rgba(7, 11, 12, .36);
-            padding: 4px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border-1);
+            gap: 4px;
+            background: var(--bg-glass);
+            padding: 4px 8px;
+            border-radius: 20px;
+            border: 1px solid var(--border-glass);
         }
 
         .currency-item {
             display: flex;
             align-items: center;
-            gap: 7px;
-            padding: 4px 9px;
-            border-radius: 6px;
-            font-size: 10px;
-            color: var(--text-2);
-            background: rgba(22, 32, 34, .80);
-            border: 1px solid rgba(143, 164, 153, .14);
-            transition: var(--transition-fast);
-            min-height: 32px;
-        }
-        .currency-item:focus-within {
-            border-color: rgba(110, 181, 208, .58);
-            box-shadow: 0 0 0 2px rgba(110, 181, 208, .08);
+            gap: 4px;
+            font-size: 11px;
+            color: var(--text-secondary);
         }
 
         .currency-item .icon {
@@ -418,208 +356,228 @@
         }
 
         .currency-item input {
-            width: 48px;
+            width: 42px;
             background: transparent;
             border: none;
-            color: #e8f0eb;
-            font-size: 10px;
+            color: var(--text-primary);
+            font-size: 11px;
             font-weight: 600;
             text-align: right;
             padding: 2px 0;
             outline: none;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: inherit;
             appearance: textfield;
             -moz-appearance: textfield;
         }
-        .currency-item input::-webkit-inner-spin-button,
-        .currency-item input::-webkit-outer-spin-button { -webkit-appearance: none; }
-        .currency-item input:focus { color: #8bc8dd; }
 
-        .auto-save-indicator {
-            font-size: 10px;
-            color: #7e9e8b;
-            opacity: 0;
-            transition: var(--transition-base);
-            font-weight: 600;
-            letter-spacing: 0.04em;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            white-space: nowrap;
-            margin-left: 3px;
+        .currency-item input::-webkit-inner-spin-button,
+        .currency-item input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
         }
-        .auto-save-indicator i { color: #8abd78; }
-        .auto-save-indicator.show { opacity: 1; }
+
+        .currency-item input:focus {
+            color: var(--accent-cyan);
+        }
 
         .header-actions {
             display: flex;
-            gap: 3px;
+            gap: 4px;
         }
 
         .header-btn {
-            width: 32px;
-            height: 32px;
-            border: 1px solid var(--border-1);
-            background: rgba(255,255,255,.025);
-            color: var(--text-3);
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--border-glass);
+            background: var(--bg-glass);
+            color: var(--text-muted);
             border-radius: 6px;
             cursor: pointer;
-            transition: var(--transition-fast);
-            font-size: 11px;
+            transition: var(--transition);
+            font-size: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
+
         .header-btn:hover {
-            color: var(--text-1);
-            border-color: rgba(110, 181, 208, .38);
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
         }
 
+        .auto-save-indicator {
+            font-size: 9px;
+            color: var(--accent-green);
+            opacity: 0;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        .auto-save-indicator.show {
+            opacity: 1;
+        }
+
+        /* ============================================================
+           SEARCH
+           ============================================================ */
         .search-bar {
             position: relative;
-            margin-bottom: 13px;
+            margin-bottom: 12px;
             flex-shrink: 0;
         }
+
         .search-bar input {
             width: 100%;
-            padding: 12px 16px 12px 41px;
-            background: rgba(13, 19, 20, .78);
-            border: 1px solid rgba(143, 164, 153, .17);
-            border-radius: 8px;
-            color: var(--text-1);
-            font-size: 12px;
-            transition: var(--transition-base);
-            font-family: 'Inter', sans-serif;
+            padding: 10px 16px 10px 40px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 13px;
+            transition: var(--transition);
+            font-family: inherit;
             outline: none;
-            letter-spacing: 0.01em;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
+
         .search-bar input:focus {
-            border-color: rgba(110, 181, 208, .55);
-            box-shadow: 0 0 0 3px rgba(110, 181, 208, .07);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.05);
         }
-        .search-bar input::placeholder { color: var(--text-4); }
+
+        .search-bar input::placeholder {
+            color: var(--text-muted);
+        }
+
         .search-bar .icon {
             position: absolute;
-            left: 15px;
+            left: 14px;
             top: 50%;
             transform: translateY(-50%);
-            color: #6e8e8e;
-            font-size: 12px;
+            color: var(--text-muted);
+            font-size: 13px;
             pointer-events: none;
         }
 
+        /* ============================================================
+           INVENTORY GRID
+           ============================================================ */
         .inventory-wrapper {
             flex: 1;
             overflow-y: auto;
-            padding: 4px 0;
-            min-height: 0;
+            padding: 2px 0;
+            margin: 0 -4px;
         }
 
         .inventory-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(142px, 1fr));
-            gap: 13px;
-            padding: 7px 4px 24px;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 8px;
+            padding: 4px;
         }
 
         .item-slot {
-            aspect-ratio: 1 / 1;
-            min-height: 142px;
-            padding: 13px 10px 10px;
-            background: linear-gradient(145deg, rgba(25, 36, 38, .96), rgba(15, 23, 25, .96));
-            border: 1px solid rgba(143, 164, 153, .15);
-            border-radius: 11px;
+            aspect-ratio: 1;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            transition: var(--transition-base);
+            transition: var(--transition);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            padding: 6px 4px;
             position: relative;
-            box-shadow: 0 4px 12px rgba(0,0,0,.18);
-            text-align: center;
+            min-height: 72px;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
         }
-        .item-slot::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 14px;
-            right: 14px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(202, 222, 207, .16), transparent);
-        }
+
         .item-slot:hover {
-            border-color: rgba(161, 193, 177, .44);
-            background: linear-gradient(145deg, rgba(31, 46, 48, .98), rgba(18, 29, 31, .98));
-            box-shadow: 0 10px 25px rgba(0,0,0,.28), 0 0 20px rgba(110,181,208,.07);
-        }
-        .item-slot:active {
-            transform: translateY(0);
-            transition: var(--transition-fast);
+            transform: translateY(-3px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
 
         .item-slot .item-image {
-            width: 68px;
-            height: 68px;
+            width: 38px;
+            height: 38px;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            border-radius: 8px;
+            border-radius: 4px;
             flex-shrink: 0;
-            margin-bottom: 9px;
-            background-color: rgba(5, 8, 9, .38);
         }
 
-        .item-slot .item-image.rarity-common { border: 1.5px solid #6b7280; box-shadow: 0 0 8px rgba(107, 114, 128, 0.15); }
-        .item-slot .item-image.rarity-uncommon { border: 1.5px solid #34d399; box-shadow: 0 0 8px rgba(52, 211, 153, 0.15); }
-        .item-slot .item-image.rarity-rare { border: 1.5px solid #60a5fa; box-shadow: 0 0 8px rgba(96, 165, 250, 0.15); }
-        .item-slot .item-image.rarity-epic { border: 1.5px solid #a78bfa; box-shadow: 0 0 8px rgba(167, 139, 250, 0.15); }
-        .item-slot .item-image.rarity-exotic { border: 1.5px solid #f87171; box-shadow: 0 0 8px rgba(248, 113, 113, 0.15); }
-        .item-slot .item-image.rarity-legendary { border: 1.5px solid #fbbf24; box-shadow: 0 0 8px rgba(251, 191, 36, 0.15); }
+        /* Rarity borders */
+        .item-slot .item-image.rarity-common {
+            border: 1px solid #6b7280;
+        }
+        .item-slot .item-image.rarity-uncommon {
+            border: 1px solid #22c55e;
+        }
+        .item-slot .item-image.rarity-rare {
+            border: 1px solid #3b82f6;
+        }
+        .item-slot .item-image.rarity-epic {
+            border: 1px solid #a855f7;
+        }
+        .item-slot .item-image.rarity-exotic {
+            border: 1px solid #ef4444;
+        }
+        .item-slot .item-image.rarity-legendary {
+            border: 1px solid #f59e0b;
+        }
 
         .item-slot .item-name {
-            font-size: 9px;
-            color: #9fb2a9;
+            font-size: 7px;
+            color: var(--text-secondary);
             text-align: center;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
             width: 100%;
-            line-height: 1.35;
-            font-weight: 600;
-            letter-spacing: 0.01em;
+            margin-top: 2px;
+            line-height: 1.2;
         }
 
         .item-slot .item-amount {
             position: absolute;
-            right: 9px;
-            bottom: 9px;
-            background: rgba(9, 18, 21, .88);
-            color: #a4d0df;
-            font-size: 9px;
+            bottom: 3px;
+            right: 4px;
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--accent-cyan);
+            font-size: 8px;
             font-weight: 700;
-            padding: 2px 6px;
+            padding: 0 4px;
             border-radius: 3px;
-            border: 1px solid rgba(110, 181, 208, .22);
-            font-family: 'JetBrains Mono', monospace;
-            letter-spacing: -0.02em;
+            border: 1px solid rgba(0, 212, 255, 0.1);
         }
 
         .item-slot .rarity-glow {
             position: absolute;
             inset: -1px;
-            border-radius: 11px;
+            border-radius: var(--radius-sm);
             pointer-events: none;
             opacity: 0;
-            transition: var(--transition-base);
+            transition: var(--transition);
         }
-        .item-slot:hover .rarity-glow { opacity: 1; }
-        .item-slot .rarity-glow.legendary { box-shadow: inset 0 0 25px rgba(251, 191, 36, 0.08); }
-        .item-slot .rarity-glow.exotic { box-shadow: inset 0 0 25px rgba(248, 113, 113, 0.08); }
-        .item-slot .rarity-glow.epic { box-shadow: inset 0 0 25px rgba(167, 139, 250, 0.08); }
-        .item-slot .rarity-glow.rare { box-shadow: inset 0 0 25px rgba(96, 165, 250, 0.08); }
-        .item-slot .rarity-glow.uncommon { box-shadow: inset 0 0 25px rgba(52, 211, 153, 0.08); }
-        .item-slot .rarity-glow.common { box-shadow: inset 0 0 25px rgba(107, 114, 128, 0.05); }
+        .item-slot:hover .rarity-glow {
+            opacity: 1;
+        }
+        .item-slot .rarity-glow.legendary {
+            box-shadow: inset 0 0 30px rgba(245, 158, 11, 0.1);
+        }
+        .item-slot .rarity-glow.exotic {
+            box-shadow: inset 0 0 30px rgba(239, 68, 68, 0.1);
+        }
+        .item-slot .rarity-glow.epic {
+            box-shadow: inset 0 0 30px rgba(168, 85, 247, 0.1);
+        }
+        .item-slot .rarity-glow.rare {
+            box-shadow: inset 0 0 30px rgba(59, 130, 246, 0.1);
+        }
 
         .empty-state {
             grid-column: 1 / -1;
@@ -627,238 +585,275 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 320px;
-            padding: 60px 20px;
-            color: var(--text-3);
+            padding: 40px 20px;
+            color: var(--text-muted);
             gap: 8px;
-            text-align: center;
-            border: 1px dashed rgba(143, 164, 153, .16);
-            border-radius: 12px;
-            background: rgba(18, 27, 29, .35);
         }
-        .empty-state .icon { font-size: 36px; color: #73918a; opacity: .55; }
-        .empty-state .text { font-size: 13px; font-weight: 600; color: #b4c5bc; }
-        .empty-state .sub { font-size: 11px; opacity: 0.7; color: #718179; }
+
+        .empty-state .icon {
+            font-size: 36px;
+            opacity: 0.3;
+        }
+        .empty-state .text {
+            font-size: 13px;
+        }
+        .empty-state .sub {
+            font-size: 11px;
+            opacity: 0.6;
+        }
 
         .loading-spinner {
             grid-column: 1 / -1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 72px 40px;
+            padding: 40px;
             gap: 12px;
-            color: var(--text-3);
-            font-size: 12px;
+            color: var(--text-muted);
         }
+
         .spinner {
             width: 20px;
             height: 20px;
-            border: 2px solid rgba(143, 164, 153, .18);
+            border: 2px solid var(--border-glass);
             border-top-color: var(--accent-cyan);
             border-radius: 50%;
-            animation: spin 0.7s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
 
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ============================================================
+           BROWSE PANEL
+           ============================================================ */
         .browse-panel {
             display: none;
             margin-top: 12px;
             flex-shrink: 0;
-            max-height: 40vh;
+            max-height: 35vh;
             overflow-y: auto;
-            background: rgba(16, 24, 25, .96);
-            border: 1px solid rgba(143, 164, 153, .20);
-            border-radius: 12px;
-            padding: 18px 19px;
-            box-shadow: var(--shadow-lg);
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             animation: slideUp 0.3s ease;
         }
-        .browse-panel.open { display: block; }
+
+        .browse-panel.open {
+            display: block;
+        }
+
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .browse-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border-1);
+            margin-bottom: 10px;
         }
+
         .browse-header span {
             font-size: 12px;
             font-weight: 600;
-            color: #c0cec5;
-            letter-spacing: .09em;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            color: var(--text-secondary);
         }
+
         .browse-header button {
             background: none;
             border: none;
-            color: var(--text-3);
+            color: var(--text-muted);
             cursor: pointer;
-            font-size: 13px;
-            transition: var(--transition-fast);
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: var(--radius-xs);
+            font-size: 14px;
+            transition: var(--transition);
         }
-        .browse-header button:hover { color: var(--text-1); background: var(--bg-3); }
+        .browse-header button:hover {
+            color: var(--text-primary);
+        }
 
         .browse-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 8px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 4px;
         }
 
         .browse-item {
             display: flex;
             align-items: center;
-            gap: 13px;
-            min-height: 66px;
-            padding: 10px 12px;
-            border-radius: 9px;
-            border: 1px solid rgba(143, 164, 153, .12);
-            transition: var(--transition-fast);
+            gap: 10px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            transition: var(--transition);
             cursor: default;
-            background: rgba(22, 33, 35, .80);
         }
+
         .browse-item:hover {
-            border-color: rgba(161, 193, 177, .34);
-            background: rgba(30, 45, 47, .94);
+            border-color: var(--border-glass);
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .browse-item .icon {
-            width: 40px;
-            height: 40px;
+            width: 28px;
+            height: 28px;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
             flex-shrink: 0;
-            border-radius: 6px;
+            border-radius: 4px;
         }
-        .browse-item .icon.rarity-common { border: 1.5px solid #6b7280; }
-        .browse-item .icon.rarity-uncommon { border: 1.5px solid #34d399; }
-        .browse-item .icon.rarity-rare { border: 1.5px solid #60a5fa; }
-        .browse-item .icon.rarity-epic { border: 1.5px solid #a78bfa; }
-        .browse-item .icon.rarity-exotic { border: 1.5px solid #f87171; }
-        .browse-item .icon.rarity-legendary { border: 1.5px solid #fbbf24; }
+        .browse-item .icon.rarity-common {
+            border: 1px solid #6b7280;
+        }
+        .browse-item .icon.rarity-uncommon {
+            border: 1px solid #22c55e;
+        }
+        .browse-item .icon.rarity-rare {
+            border: 1px solid #3b82f6;
+        }
+        .browse-item .icon.rarity-epic {
+            border: 1px solid #a855f7;
+        }
+        .browse-item .icon.rarity-exotic {
+            border: 1px solid #ef4444;
+        }
+        .browse-item .icon.rarity-legendary {
+            border: 1px solid #f59e0b;
+        }
 
         .browse-item .info {
             flex: 1;
             min-width: 0;
         }
+
         .browse-item .info .name {
-            font-size: 11px;
-            color: #d9e5dd;
+            font-size: 12px;
+            color: var(--text-primary);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-weight: 500;
-            letter-spacing: 0.01em;
         }
+
         .browse-item .info .meta {
             font-size: 9px;
-            color: #73847c;
+            color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 500;
         }
 
         .browse-item .controls {
             display: flex;
-            gap: 7px;
+            gap: 4px;
             align-items: center;
             flex-shrink: 0;
         }
+
         .browse-item .controls input {
-            width: 46px;
-            padding: 5px 5px;
-            background: var(--bg-input);
-            border: 1px solid var(--border-2);
-            border-radius: var(--radius-xs);
-            color: var(--text-1);
+            width: 36px;
+            padding: 2px 4px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-glass);
+            border-radius: 4px;
+            color: var(--text-primary);
             font-size: 11px;
             text-align: center;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: inherit;
             outline: none;
-            transition: var(--transition-fast);
         }
+
         .browse-item .controls input:focus {
-            border-color: rgba(110, 181, 208, .52);
-            box-shadow: 0 0 0 1px rgba(110, 181, 208, .15);
+            border-color: var(--accent-cyan);
         }
+
         .browse-item .controls .add-btn {
-            min-width: 67px;
-            min-height: 30px;
-            padding: 5px 11px;
-            background: linear-gradient(135deg, #4b8b9b, #72b1b9);
-            color: #0d1718;
+            padding: 2px 10px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: #fff;
             border: none;
-            border-radius: var(--radius-xs);
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
-            transition: var(--transition-base);
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            letter-spacing: 0.02em;
+            transition: var(--transition);
+            font-family: inherit;
         }
+
         .browse-item .controls .add-btn:hover {
-            transform: scale(1.04);
-            box-shadow: 0 0 15px rgba(110, 181, 208, 0.25);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
         }
 
         .browse-item .rarity-dot {
-            width: 5px;
-            height: 5px;
+            width: 4px;
+            height: 4px;
             border-radius: 50%;
             flex-shrink: 0;
         }
 
+        /* ============================================================
+           MODAL
+           ============================================================ */
         .modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(3, 7, 8, .78);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 10000;
             align-items: center;
             justify-content: center;
             animation: fadeIn 0.25s ease;
         }
-        .modal-overlay.open { display: flex; }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         .modal {
-            background: linear-gradient(145deg, #172124, #0f1719);
-            border: 1px solid rgba(161, 193, 177, .26);
-            border-radius: 14px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
             padding: 24px;
-            max-width: 400px;
+            max-width: 420px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
             animation: modalPop 0.3s ease;
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
+
         @keyframes modalPop {
-            from { opacity: 0; transform: scale(0.96) translateY(8px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
 
         .modal-header {
@@ -866,684 +861,560 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 16px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid rgba(143, 164, 153, .16);
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-glass);
         }
+
         .modal-header h3 {
-            font-size: 13px;
-            font-weight: 700;
-            color: #dce9e0;
-            letter-spacing: .08em;
-            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
+
         .modal-close {
             background: none;
             border: none;
-            color: var(--text-3);
-            font-size: 16px;
+            color: var(--text-muted);
+            font-size: 18px;
             cursor: pointer;
-            transition: var(--transition-fast);
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: var(--radius-xs);
+            transition: var(--transition);
         }
-        .modal-close:hover { color: #e29a54; background: rgba(226, 154, 84, .10); }
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
 
         .modal-body {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
 
         .modal-body .item-icon {
-            width: 56px;
-            height: 56px;
-            margin: 0 auto 6px;
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 8px;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            border-radius: var(--radius-md);
-            border: 2px solid var(--border-2);
+            border-radius: 8px;
+            border: 2px solid var(--border-glass);
         }
+
         .modal-body .item-title {
             text-align: center;
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: -0.01em;
+            font-size: 18px;
+            font-weight: 600;
         }
+
         .modal-body .item-sub {
             text-align: center;
-            font-size: 9px;
-            color: var(--text-3);
+            font-size: 11px;
+            color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-weight: 500;
             margin-bottom: 4px;
         }
+
         .modal-body .field {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 4px 0;
-            font-size: 12px;
-            border-bottom: 1px solid var(--border-1);
+            font-size: 13px;
+            border-bottom: 1px solid var(--border-glass);
         }
-        .modal-body .field .label { color: var(--text-3); font-weight: 500; }
+
+        .modal-body .field .label {
+            color: var(--text-secondary);
+        }
         .modal-body .field .value {
-            color: var(--text-1);
+            color: var(--text-primary);
             font-weight: 500;
-            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .modal-body .field .value code {
             font-size: 10px;
-            background: var(--bg-input);
-            padding: 2px 8px;
-            border-radius: var(--radius-xs);
-            border: 1px solid var(--border-1);
+            color: var(--text-muted);
+            background: var(--bg-glass);
+            padding: 2px 6px;
+            border-radius: 4px;
         }
 
         .modal-body .durability-group {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
             padding: 8px 0;
         }
+
         .modal-body .durability-group .durability-label {
             display: flex;
             justify-content: space-between;
-            font-size: 11px;
-            color: var(--text-2);
-            font-weight: 500;
+            font-size: 12px;
+            color: var(--text-secondary);
         }
+
         .modal-body .durability-slider {
             width: 100%;
             accent-color: var(--accent-cyan);
-            background: var(--bg-input);
+            background: var(--bg-primary);
             height: 4px;
             border-radius: 2px;
             outline: none;
-            cursor: pointer;
         }
 
         .modal-actions {
             display: flex;
-            gap: 6px;
-            margin-top: 10px;
+            gap: 8px;
+            margin-top: 12px;
             justify-content: flex-end;
         }
+
         .modal-actions button {
-            padding: 6px 14px;
-            border: 1px solid var(--border-2);
+            padding: 6px 16px;
+            border: 1px solid var(--border-glass);
             border-radius: 6px;
-            background: var(--bg-3);
-            color: var(--text-2);
+            background: transparent;
+            color: var(--text-secondary);
             cursor: pointer;
-            font-size: 11px;
-            transition: var(--transition-base);
-            font-family: 'Inter', sans-serif;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            font-size: 12px;
+            transition: var(--transition);
+            font-family: inherit;
         }
+
         .modal-actions button:hover {
-            background: var(--bg-4);
-            color: var(--text-1);
-            border-color: var(--border-3);
+            background: var(--bg-glass);
+            color: var(--text-primary);
         }
-        .modal-actions button.danger {
-            background: rgba(248, 113, 113, 0.08);
-            color: var(--accent-red);
-            border-color: rgba(248, 113, 113, 0.2);
-        }
+
         .modal-actions button.danger:hover {
-            background: rgba(248, 113, 113, 0.15);
-            border-color: rgba(248, 113, 113, 0.4);
-            color: #fff;
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+            border-color: var(--accent-red);
         }
-        .modal-actions button.primary,
-        .qty-edit-group button {
-            background: linear-gradient(135deg, #4b8b9b, #72b1b9);
-            color: #0d1718;
+
+        .modal-actions button.primary {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: #fff;
             border: none;
         }
-        .modal-actions button.primary:hover,
-        .qty-edit-group button:hover {
-            box-shadow: 0 0 20px rgba(110, 181, 208, .20);
+
+        .modal-actions button.primary:hover {
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.2);
         }
 
-        .qty-edit-group {
-            display: flex;
-            gap: 5px;
-            align-items: center;
-            margin-left: auto;
-        }
-        .qty-edit-group input {
-            width: 44px;
-            padding: 3px 6px;
-            background: var(--bg-input);
-            border: 1px solid var(--border-2);
-            border-radius: var(--radius-xs);
-            color: var(--text-1);
-            font-size: 11px;
-            text-align: center;
-            font-family: 'JetBrains Mono', monospace;
-            outline: none;
-            transition: var(--transition-fast);
-        }
-        .qty-edit-group input:focus {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.15);
-        }
-        .qty-edit-group button {
-            padding: 3px 10px;
-            border-radius: var(--radius-xs);
-            font-size: 10px;
-            font-weight: 600;
-            font-family: 'Inter', sans-serif;
-            transition: var(--transition-fast);
-        }
-        .qty-edit-group button:hover { transform: scale(1.04); }
-
+        /* ============================================================
+           TOAST
+           ============================================================ */
         .toast-container {
             position: fixed;
-            top: calc(48px + 12px);
+            top: 50px;
             right: 16px;
             z-index: 99999;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
             pointer-events: none;
         }
+
         .toast {
-            background: rgba(19, 29, 31, .96);
-            border: 1px solid rgba(161, 193, 177, .24);
-            border-radius: 9px;
-            padding: 10px 14px;
-            min-width: 200px;
-            max-width: 300px;
-            box-shadow: var(--shadow-lg);
-            animation: toastIn 0.3s ease;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-sm);
+            padding: 10px 16px;
+            min-width: 220px;
+            max-width: 340px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            animation: toastIn 0.4s ease;
             pointer-events: auto;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
         }
-        .toast.out { animation: toastOut 0.25s ease forwards; }
+
+        .toast.out {
+            animation: toastOut 0.3s ease forwards;
+        }
+
         @keyframes toastIn {
-            from { opacity: 0; transform: translateX(30px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
+
         @keyframes toastOut {
-            from { opacity: 1; transform: translateX(0); }
-            to { opacity: 0; transform: translateX(30px); }
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(40px);
+            }
         }
+
         .toast .toast-title {
-            font-size: 10px;
-            font-weight: 700;
-            color: #83c4d8;
-            letter-spacing: .08em;
-            text-transform: uppercase;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--accent-cyan);
         }
         .toast .toast-msg {
-            font-size: 11px;
-            color: #c3d1c8;
-            line-height: 1.4;
-        }
-
-        .confirm-modal .modal { max-width: 340px; text-align: center; }
-        .confirm-modal .modal .icon { font-size: 32px; margin-bottom: 2px; }
-        .confirm-modal .modal p {
-            color: var(--text-2);
             font-size: 12px;
-            margin: 2px 0 12px;
-            line-height: 1.5;
+            color: var(--text-secondary);
+            margin-top: 2px;
         }
 
+        /* ============================================================
+           CONFIRM MODAL
+           ============================================================ */
+        .confirm-modal .modal {
+            max-width: 360px;
+            text-align: center;
+        }
+
+        .confirm-modal .modal .icon {
+            font-size: 36px;
+            margin-bottom: 4px;
+        }
+
+        .confirm-modal .modal p {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin: 4px 0 12px;
+        }
+
+        /* ============================================================
+           STATUS BAR (Bottom)
+           ============================================================ */
         .status-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 34px;
-            background: rgba(10, 14, 15, .94);
-            border-top: 1px solid rgba(143, 164, 153, .16);
+            height: 28px;
+            background: rgba(11, 14, 26, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border-glass);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 19px;
-            font-size: 9px;
-            color: var(--text-3);
+            padding: 0 16px;
+            font-size: 10px;
+            color: var(--text-muted);
             z-index: 9998;
-            letter-spacing: 0.02em;
         }
+
         .status-bar .left {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
+
         .status-bar .left .dot {
-            width: 5px;
-            height: 5px;
+            width: 4px;
+            height: 4px;
             border-radius: 50%;
             background: var(--accent-red);
-            transition: var(--transition-base);
+            transition: var(--transition);
         }
         .status-bar .left .dot.connected {
             background: var(--accent-green);
-            box-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
         }
+
         .status-bar .center {
-            font-size: 8px;
-            color: var(--text-4);
-            letter-spacing: 0.03em;
+            font-size: 9px;
+            color: var(--text-muted);
+            opacity: 0.5;
         }
+
         .status-bar .center a {
-            color: var(--text-3);
+            color: var(--text-muted);
             text-decoration: none;
-            transition: var(--transition-fast);
-            font-weight: 500;
+            transition: var(--transition);
         }
-        .status-bar .center a:hover { color: #83c4d8; }
+        .status-bar .center a:hover {
+            color: var(--accent-cyan);
+        }
+
         .status-bar .right {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 8px;
+            gap: 12px;
         }
 
-        @media (max-width: 980px) {
-            .main { padding-left: 20px; padding-right: 20px; }
-            .header { align-items: flex-start; }
-            .header-right { justify-content: flex-end; }
-            .inventory-grid { grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); }
-            .browse-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
-        }
-
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
         @media (max-width: 768px) {
-            :root { --sidebar-w: 176px; --titlebar-h: 40px; --statusbar-h: 28px; }
-            .title-bar { height: 40px; padding: 0 12px; }
-            .title-bar .brand .brand-name { font-size: 9px; }
-            .title-bar .brand .brand-version { display: none; }
-            .app { padding-top: 40px; }
-            .sidebar { width: 176px; padding: 11px 9px; }
-            .sidebar .logo-icon { height: 42px; margin-bottom: 11px; padding: 0 11px; }
-            .sidebar .logo-icon::after { font-size: 8px; }
-            .sidebar-btn { height: 39px; gap: 10px; padding: 0 11px; }
-            .sidebar-btn .sidebar-label { font-size: 8px; letter-spacing: .07em; }
-            .main { padding: 14px 12px 9px; }
-            .header { padding: 14px; }
-            .header-left h2 { font-size: 14px; }
-            .header-left h2::before { font-size: 7px; }
-            .header-right { width: 100%; justify-content: flex-start; }
-            .currency-group { flex: 1; min-width: 210px; }
-            .currency-item { flex: 1; }
-            .auto-save-indicator { display: none; }
-            .inventory-grid { grid-template-columns: repeat(auto-fill, minmax(106px, 1fr)); gap: 9px; }
-            .item-slot { min-height: 110px; }
-            .item-slot .item-image { width: 50px; height: 50px; }
-            .item-slot .item-name { font-size: 8px; }
-            .browse-grid { grid-template-columns: 1fr; }
-            .status-bar .center { display: none; }
+            .sidebar {
+                width: 48px;
+                padding: 8px 4px;
+            }
+            .sidebar .logo-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 12px;
+            }
+            .sidebar-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
+            .sidebar-btn .tooltip {
+                display: none;
+            }
+            .main {
+                padding: 10px 12px 8px 12px;
+            }
+            .header {
+                padding: 8px 12px;
+            }
+            .header-left h2 {
+                font-size: 14px;
+            }
+            .currency-group {
+                padding: 2px 6px;
+            }
+            .currency-item input {
+                width: 30px;
+                font-size: 10px;
+            }
+            .inventory-grid {
+                grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+                gap: 6px;
+            }
+            .item-slot {
+                min-height: 60px;
+            }
+            .item-slot .item-image {
+                width: 30px;
+                height: 30px;
+            }
+            .browse-grid {
+                grid-template-columns: 1fr;
+            }
+            .modal {
+                padding: 16px;
+                max-width: 100%;
+                margin: 16px;
+            }
+            .toast {
+                min-width: unset;
+                max-width: 280px;
+            }
         }
 
         @media (max-width: 480px) {
-            :root { --sidebar-w: 164px; }
-            .sidebar { width: 164px; }
-            .sidebar .logo-icon::after { font-size: 8px; }
-            .sidebar-btn .sidebar-label { font-size: 7px; }
-            .header-right { gap: 6px; }
-            .currency-group { min-width: 100%; }
-            .header-actions { margin-left: auto; }
-            .inventory-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 7px; }
-            .item-slot { min-height: 96px; padding: 9px 6px 8px; }
-            .item-slot .item-image { width: 42px; height: 42px; }
-            .item-slot .item-name { font-size: 7px; }
-            .item-slot .item-amount { right: 4px; bottom: 4px; font-size: 7px; }
-            .browse-item { min-height: 60px; padding: 8px 9px; }
-            .browse-item .icon { width: 34px; height: 34px; }
-            .browse-item .info .name { font-size: 10px; }
+            .header-right {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .currency-group {
+                flex-wrap: wrap;
+            }
+            .header-actions {
+                margin-left: auto;
+            }
         }
 
-        .hidden { display: none !important; }
+        /* ============================================================
+           UTILITY
+           ============================================================ */
+        .hidden {
+            display: none !important;
+        }
+
+        /* ============================================================
+           UPDATE INDICATOR
+           ============================================================ */
         .update-badge {
             background: var(--accent-pink);
             color: #fff;
-            font-size: 7px;
+            font-size: 8px;
             font-weight: 700;
             padding: 2px 8px;
             border-radius: 10px;
             cursor: pointer;
             animation: pulse-update 2s infinite;
-            letter-spacing: 0.05em;
         }
+
         @keyframes pulse-update {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        .text-center { text-align: center; }
-        .flex-center { display: flex; align-items: center; justify-content: center; }
-        .gap-1 { gap: 4px; }
-        .gap-2 { gap: 8px; }
-        .gap-3 { gap: 12px; }
-
-        .progress-page {
-            display: none;
-            flex: 1;
-            flex-direction: column;
-            padding: 20px 24px;
-            overflow-y: auto;
-        }
-        .progress-page.active {
-            display: flex;
-        }
-
-        .progress-page .page-title {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--text-1);
-            letter-spacing: -0.02em;
-            margin-bottom: 4px;
-        }
-        .progress-page .page-subtitle {
-            font-size: 12px;
-            color: var(--text-3);
-            margin-bottom: 24px;
-            letter-spacing: 0.03em;
-        }
-
-        .progress-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-        }
-
-        .progress-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-1);
-            border-radius: var(--radius-md);
-            padding: 18px 20px;
-            transition: var(--transition-base);
-            box-shadow: var(--shadow-sm);
-        }
-        .progress-card:hover {
-            border-color: var(--border-2);
-            box-shadow: var(--shadow-md);
-        }
-
-        .progress-card .card-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-1);
-            letter-spacing: 0.02em;
-            margin-bottom: 2px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .progress-card .card-title i {
-            font-size: 16px;
-            width: 24px;
-            text-align: center;
-        }
-        .progress-card .card-desc {
-            font-size: 11px;
-            color: var(--text-3);
-            margin-bottom: 14px;
-            line-height: 1.4;
-        }
-
-        .progress-card .card-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .progress-card .card-actions .mini-btn {
-            padding: 5px 12px;
-            border-radius: var(--radius-xs);
-            border: 1px solid var(--border-2);
-            background: var(--bg-2);
-            color: var(--text-2);
-            font-size: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition-fast);
-            font-family: 'Inter', sans-serif;
-            letter-spacing: 0.03em;
-            text-transform: uppercase;
-        }
-        .progress-card .card-actions .mini-btn:hover {
-            background: var(--bg-3);
-            color: var(--text-1);
-            border-color: var(--border-3);
-            transform: translateY(-1px);
-        }
-        .progress-card .card-actions .mini-btn.green {
-            background: rgba(52, 211, 153, 0.15);
-            color: var(--accent-green);
-            border-color: rgba(52, 211, 153, 0.3);
-        }
-        .progress-card .card-actions .mini-btn.green:hover {
-            background: rgba(52, 211, 153, 0.25);
-        }
-        .progress-card .card-actions .mini-btn.orange {
-            background: rgba(226, 154, 84, 0.15);
-            color: var(--accent-orange);
-            border-color: rgba(226, 154, 84, 0.3);
-        }
-        .progress-card .card-actions .mini-btn.orange:hover {
-            background: rgba(226, 154, 84, 0.25);
-        }
-        .progress-card .card-actions .mini-btn.blue {
-            background: rgba(77, 167, 211, 0.15);
-            color: var(--accent-blue);
-            border-color: rgba(77, 167, 211, 0.3);
-        }
-        .progress-card .card-actions .mini-btn.blue:hover {
-            background: rgba(77, 167, 211, 0.25);
-        }
-        .progress-card .card-actions .mini-btn.purple {
-            background: rgba(167, 139, 250, 0.15);
-            color: var(--accent-purple);
-            border-color: rgba(167, 139, 250, 0.3);
-        }
-        .progress-card .card-actions .mini-btn.purple:hover {
-            background: rgba(167, 139, 250, 0.25);
-        }
-        .progress-card .card-actions .mini-btn.gold {
-            background: rgba(251, 191, 36, 0.15);
-            color: var(--accent-yellow);
-            border-color: rgba(251, 191, 36, 0.3);
-        }
-        .progress-card .card-actions .mini-btn.gold:hover {
-            background: rgba(251, 191, 36, 0.25);
-        }
-        .progress-card .card-actions .mini-btn.pink {
-            background: rgba(244, 114, 182, 0.15);
-            color: var(--accent-pink);
-            border-color: rgba(244, 114, 182, 0.3);
-        }
-        .progress-card .card-actions .mini-btn.pink:hover {
-            background: rgba(244, 114, 182, 0.25);
-        }
-        .progress-card .card-actions .mini-btn.red {
-            background: rgba(211, 109, 103, 0.15);
-            color: var(--accent-red);
-            border-color: rgba(211, 109, 103, 0.3);
-        }
-        .progress-card .card-actions .mini-btn.red:hover {
-            background: rgba(211, 109, 103, 0.25);
-        }
-        .progress-card .card-actions .mini-btn.cyan {
-            background: rgba(110, 181, 208, 0.15);
-            color: var(--accent-cyan);
-            border-color: rgba(110, 181, 208, 0.3);
-        }
-        .progress-card .card-actions .mini-btn.cyan:hover {
-            background: rgba(110, 181, 208, 0.25);
-        }
-
-        .inventory-wrapper.hidden {
-            display: none;
-        }
-        .browse-panel.hidden {
-            display: none !important;
-        }
-        .search-bar.hidden {
-            display: none;
-        }
-        .header.hidden {
-            display: none;
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== TITLE BAR ===== -->
+    <!-- ============================================================
+    TITLE BAR
+    ============================================================ -->
     <div class="title-bar">
         <div class="brand">
-            <div class="logo-badge">⚡</div>
-            <span class="brand-name">SP CYCLE // ITEM EDITOR</span>
-            <span class="brand-version">v2.0.1</span>
+            <div class="logo">⚡</div>
+            <span>The Cycle: Reborn</span>
             <span class="status-dot" id="title-dot"></span>
         </div>
         <div class="title-controls" id="title-controls">
-            <button id="minimize-btn" title="Minimize"><i class="fas fa-minus"></i></button>
-            <button id="maximize-btn" title="Maximize"><i class="fas fa-square"></i></button>
-            <button class="close-btn" id="close-btn" title="Close"><i class="fas fa-times"></i></button>
+            <button id="minimize-btn" title="Minimize">─</button>
+            <button id="maximize-btn" title="Maximize">□</button>
+            <button class="close" id="close-btn" title="Close">✕</button>
         </div>
     </div>
 
-    <!-- ===== APP ===== -->
+    <!-- ============================================================
+    APP
+    ============================================================ -->
     <div class="app">
 
-        <!-- ===== SIDEBAR ===== -->
+        <!-- ============================================================
+        SIDEBAR
+        ============================================================ -->
         <nav class="sidebar" id="sidebar">
             <div class="logo-icon">⚡</div>
 
-            <button class="sidebar-btn active" data-category="all" title="All Items" id="btn-inventory">
-                <i class="fas fa-th-large"></i>
-                <span class="sidebar-label">Inventory</span>
+            <button class="sidebar-btn active" data-category="all" title="All Items">
+                <i class="fas fa-th"></i>
+                <span class="tooltip">All Items</span>
             </button>
-            <button class="sidebar-btn" id="btn-progress" title="Progress">
-                <i class="fas fa-chart-line"></i>
-                <span class="sidebar-label">Progress</span>
-            </button>
-
-            <div class="sep"></div>
-
             <button class="sidebar-btn" data-category="weapons" title="Weapons">
-                <i class="fas fa-crosshairs"></i>
-                <span class="sidebar-label">Weapons</span>
+                <i class="fas fa-gun"></i>
+                <span class="tooltip">Weapons</span>
             </button>
             <button class="sidebar-btn" data-category="armor" title="Armor">
                 <i class="fas fa-shield-halved"></i>
-                <span class="sidebar-label">Armor</span>
+                <span class="tooltip">Armor</span>
             </button>
             <button class="sidebar-btn" data-category="ammo" title="Ammo">
                 <i class="fas fa-bullseye"></i>
-                <span class="sidebar-label">Ammo</span>
+                <span class="tooltip">Ammo</span>
             </button>
             <button class="sidebar-btn" data-category="consumables" title="Consumables">
                 <i class="fas fa-syringe"></i>
-                <span class="sidebar-label">Consumables</span>
+                <span class="tooltip">Consumables</span>
             </button>
             <button class="sidebar-btn" data-category="materials" title="Materials">
                 <i class="fas fa-cubes"></i>
-                <span class="sidebar-label">Materials</span>
+                <span class="tooltip">Materials</span>
             </button>
             <button class="sidebar-btn" data-category="attachments" title="Attachments">
                 <i class="fas fa-wrench"></i>
-                <span class="sidebar-label">Attachments</span>
+                <span class="tooltip">Attachments</span>
             </button>
             <button class="sidebar-btn" data-category="tools" title="Tools">
                 <i class="fas fa-toolbox"></i>
-                <span class="sidebar-label">Tools</span>
+                <span class="tooltip">Tools</span>
             </button>
 
             <div class="sep"></div>
 
             <button class="sidebar-btn" id="browse-btn" title="Browse Items">
                 <i class="fas fa-plus-circle"></i>
-                <span class="sidebar-label">Browse Items</span>
+                <span class="tooltip">Browse Items</span>
             </button>
             <button class="sidebar-btn" id="clear-btn" title="Clear Inventory">
                 <i class="fas fa-trash"></i>
-                <span class="sidebar-label">Clear All</span>
+                <span class="tooltip">Clear All</span>
+            </button>
+
+            <div class="sep"></div>
+
+            <button class="sidebar-btn" id="launch-btn" title="Launch Game">
+                <i class="fas fa-play"></i>
+                <span class="tooltip">Launch Game</span>
+            </button>
+            <button class="sidebar-btn" id="configure-btn" title="Configure Game" style="display:none;">
+                <i class="fas fa-cog"></i>
+                <span class="tooltip">Configure</span>
             </button>
 
             <div class="sep"></div>
 
             <button class="sidebar-btn" id="backup-btn" title="Export Backup">
                 <i class="fas fa-download"></i>
-                <span class="sidebar-label">Export Backup</span>
+                <span class="tooltip">Export Backup</span>
             </button>
             <button class="sidebar-btn" id="restore-btn" title="Import Backup">
                 <i class="fas fa-upload"></i>
-                <span class="sidebar-label">Import Backup</span>
+                <span class="tooltip">Import Backup</span>
             </button>
 
             <div class="sep"></div>
 
             <button class="sidebar-btn" id="update-btn" title="Check Updates" style="display:none;">
                 <i class="fas fa-rotate"></i>
-                <span class="sidebar-label">Check Updates</span>
+                <span class="tooltip">Check Updates</span>
             </button>
             <button class="sidebar-btn" id="reload-btn" title="Reload">
                 <i class="fas fa-sync"></i>
-                <span class="sidebar-label">Reload</span>
+                <span class="tooltip">Reload</span>
             </button>
         </nav>
 
-        <!-- ===== MAIN CONTENT ===== -->
+        <!-- ============================================================
+        MAIN
+        ============================================================ -->
         <main class="main">
 
             <!-- Header -->
-            <header class="header" id="main-header">
-                <div class="header-left">
-                    <h2>Stash</h2>
-                    <span class="count-badge" id="item-count">0 items</span>
-                </div>
-                <div class="header-right">
-                    <div class="currency-group">
-                        <div class="currency-item">
-                            <div class="icon" style="background-image:url('https://lxjo101.github.io/TheCycleRebornSaveEditor-Assets/icons/Aurum.png')"></div>
-                            <input type="number" id="aurum-value" value="0" min="0" />
-                        </div>
-                        <div class="currency-item">
-                            <div class="icon" style="background-image:url('https://lxjo101.github.io/TheCycleRebornSaveEditor-Assets/icons/K-Marks.png')"></div>
-                            <input type="number" id="kmarks-value" value="0" min="0" />
-                        </div>
-                        <div class="currency-item">
-                            <div class="icon" style="background-image:url('https://lxjo101.github.io/TheCycleRebornSaveEditor-Assets/icons/InsuranceToken.png')"></div>
-                            <input type="number" id="insurance-value" value="0" min="0" />
-                        </div>
-                    </div>
+            <!-- Header -->
+<header class="header">
+    <div class="header-left">
+        <h2>Stash</h2>
+        <span class="count" id="item-count">0 items</span>
+    </div>
+    <div class="header-right">
+        <div class="currency-group">
+            <div class="currency-item">
+                <div class="icon" style="background-image:url('https://lxjo101.github.io/TheCycleRebornSaveEditor-Assets/icons/Aurum.png')"></div>
+                <input type="number" id="aurum-value" value="0" min="0" />
+            </div>
+            <div class="currency-item">
+                <div class="icon" style="background-image:url('https://lxjo101.github.io/TheCycleRebornSaveEditor-Assets/icons/K-Marks.png')"></div>
+                <input type="number" id="kmarks-value" value="0" min="0" />
+            </div>
+            <div class="currency-item">
+                <div class="icon" style="background-image:url('https://lxjo101.github.io/TheCycleRebornSaveEditor-Assets/icons/InsuranceToken.png')"></div>
+                <input type="number" id="insurance-value" value="0" min="0" />
+            </div>
+        </div>
 
-                    <span class="auto-save-indicator" id="auto-save-indicator"><i class="fas fa-check-circle"></i> Saved</span>
-                    <div class="header-actions">
-                        <button class="header-btn" id="reload-header-btn" title="Reload"><i class="fas fa-sync"></i></button>
-                    </div>
-                </div>
-            </header>
+        <!-- FACTION BUTTONS -->
+        <button class="header-btn" id="faction-korolev" style="background:#ff6b35;color:#fff;font-size:10px;padding:4px 10px;border-radius:4px;border:none;cursor:pointer;font-weight:600;">KOR</button>
+        <button class="header-btn" id="faction-ica" style="background:#3b82f6;color:#fff;font-size:10px;padding:4px 10px;border-radius:4px;border:none;cursor:pointer;font-weight:600;">ICA</button>
+        <button class="header-btn" id="faction-osiris" style="background:#8b5cf6;color:#fff;font-size:10px;padding:4px 10px;border-radius:4px;border:none;cursor:pointer;font-weight:600;">OSI</button>
+
+        <span class="auto-save-indicator" id="auto-save-indicator">✓ Saved</span>
+        <div class="header-actions">
+            <button class="header-btn" id="reload-header-btn" title="Reload">
+                <i class="fas fa-sync"></i>
+            </button>
+        </div>
+    </div>
+</header>
 
             <!-- Search -->
-            <div class="search-bar" id="search-bar">
+            <div class="search-bar">
                 <span class="icon"><i class="fas fa-search"></i></span>
                 <input type="text" id="search-input" placeholder="Search items by name or ID..." />
             </div>
 
-            <!-- Inventory Grid -->
+            <!-- Inventory -->
             <div class="inventory-wrapper" id="inventory-wrapper">
                 <div class="inventory-grid" id="inventory-grid">
                     <div class="loading-spinner">
                         <div class="spinner"></div>
-                        <span>Loading inventory...</span>
+                        Loading inventory...
                     </div>
                 </div>
             </div>
@@ -1554,77 +1425,22 @@
                     <span><i class="fas fa-cube"></i> Available Items</span>
                     <button id="close-browse"><i class="fas fa-times"></i></button>
                 </div>
+
+            
                 <div class="browse-grid" id="browse-grid"></div>
-            </div>
-
-            <!-- Progress Page -->
-            <div class="progress-page" id="progress-page">
-                <div class="page-title">📈 Progression</div>
-                <div class="page-subtitle">Boost your game progress with one click</div>
-
-                <div class="progress-grid">
-
-                    <div class="progress-card">
-                        <div class="card-title"><i class="fas fa-crown" style="color:#fbbf24;"></i> Max Factions</div>
-                        <div class="card-desc">Max out all faction reputations to 999,999</div>
-                        <div class="card-actions">
-                            <button class="mini-btn gold" id="faction-all">All</button>
-                            <button class="mini-btn orange" id="faction-korolev">KOR</button>
-                            <button class="mini-btn blue" id="faction-ica">ICA</button>
-                            <button class="mini-btn green" id="faction-osiris">OSI</button>
-                        </div>
-                    </div>
-
-                    <div class="progress-card">
-                        <div class="card-title"><i class="fas fa-hammer" style="color:#fbbf24;"></i> Forge Armor</div>
-                        <div class="card-desc">Give legendary forged armor set (Helmet, Shield, Bag + 3 weapons)</div>
-                        <div class="card-actions">
-                            <button class="mini-btn gold" id="forge-armor-btn">Give Forge Armor</button>
-                        </div>
-                    </div>
-
-                    <div class="progress-card">
-                        <div class="card-title"><i class="fas fa-bolt" style="color:#34d399;"></i> Generator Fix</div>
-                        <div class="card-desc">Max generator rates and caps (aurum, kmarks, crate tier, etc.)</div>
-                        <div class="card-actions">
-                            <button class="mini-btn green" id="generator-fix-btn">Apply Fix</button>
-                        </div>
-                    </div>
-
-                    <div class="progress-card">
-                        <div class="card-title"><i class="fas fa-home" style="color:#f472b6;"></i> Max Quarters</div>
-                        <div class="card-desc">Upgrade Player Quarters to level 11</div>
-                        <div class="card-actions">
-                            <button class="mini-btn pink" id="max-quarters-btn">Max Quarters</button>
-                        </div>
-                    </div>
-
-                    <div class="progress-card">
-                        <div class="card-title"><i class="fas fa-forward" style="color:#60a5fa;"></i> Skip Badum</div>
-                        <div class="card-desc">Skip Badum onboarding (sets progress to 999999)</div>
-                        <div class="card-actions">
-                            <button class="mini-btn blue" id="skip-badum-btn">Skip Badum</button>
-                        </div>
-                    </div>
-
-                    <div class="progress-card">
-                        <div class="card-title"><i class="fas fa-code-branch" style="color:#a78bfa;"></i> Max Tech Tree</div>
-                        <div class="card-desc">Unlock all Tech Tree nodes (stash, bag, generators, crates)</div>
-                        <div class="card-actions">
-                            <button class="mini-btn purple" id="max-tech-tree-btn">Max Tech Tree</button>
-                        </div>
-                    </div>
-
-                </div>
             </div>
 
         </main>
     </div>
 
-    <!-- ===== TOAST ===== -->
+    <!-- ============================================================
+    TOAST CONTAINER
+    ============================================================ -->
     <div class="toast-container" id="toast-container"></div>
 
-    <!-- ===== MODAL ===== -->
+    <!-- ============================================================
+    MODAL
+    ============================================================ -->
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal" id="modal">
             <div class="modal-header">
@@ -1635,7 +1451,9 @@
         </div>
     </div>
 
-    <!-- ===== CONFIRM MODAL ===== -->
+    <!-- ============================================================
+    CONFIRM MODAL
+    ============================================================ -->
     <div class="modal-overlay confirm-modal" id="confirm-overlay">
         <div class="modal">
             <div class="modal-header">
@@ -1653,14 +1471,34 @@
         </div>
     </div>
 
-    
+    <!-- ============================================================
+    STATUS BAR
+    ============================================================ -->
+    <div class="status-bar">
+        <div class="left">
+            <span class="dot" id="status-dot"></span>
+            <span id="status-text">Initializing...</span>
+        </div>
+        <div class="center">
+            Made by <a href="https://github.com/lxjo101" target="_blank">Lxjo</a> ·
+            Maintained by Constance ·
+            <a href="https://discord.gg/gvgbca8yxz" target="_blank">💬 Discord</a>
+        </div>
+        <div class="right">
+            <span id="connection-text">Connecting...</span>
+        </div>
+    </div>
 
-    <!-- ===== SCRIPT ===== -->
+    <!-- ============================================================
+    SCRIPT
+    ============================================================ -->
     <script>
+        // ============================================================
+        // CYCLE REBORN EDITOR
+        // ============================================================
         class CycleRebornEditor {
             constructor() {
-                console.log('🏗️ Constructor started...');
-                
+                // State
                 this.inventory = [];
                 this.availableItems = [];
                 this.itemTemplates = {};
@@ -1669,182 +1507,54 @@
                 this.isConnected = false;
                 this.currentFilter = '';
                 this.autoSaveTimeout = null;
-                this.saveTimeout = null;
                 this.imageCache = new Map();
                 this.imageErrors = new Set();
                 this.browseOpen = false;
                 this.currentEditingIndex = null;
-                this.currentPage = 'inventory';
-                this.consumableFix = {
-                    "Combat Stim": "Consumable_Health_04",
-                    "Strong Stim": "Consumable_Health_05",
-                    "Strong Medkit": "Consumable_Health_03",
-                    "Combat Medkit": "Consumable_Health_06"
-                };
-                
-                // ===== THE FIX: Correct URLs =====
+// Fix for consumable ID mismatches
+this.consumableFix = {
+    "Combat Stim": "Consumable_Health_04",
+    "Strong Stim": "Consumable_Health_05", 
+    "Strong Medkit": "Consumable_Health_03",
+    "Combat Medkit": "Consumable_Health_06"
+};
+                // API
                 this.apiBaseUrl = '/api';
+                // Remote asset URLs for ConstanceV1/SingePlayer-Item-editor
+this.apiBaseUrl = '/api';
 this.remoteAssetBase = '';
 this.remoteConfigUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-Item-Progress-Save-Editor/main/itemConfigs.json';
 this.remoteItemsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-Item-Progress-Save-Editor/main/itemIds.json';
 this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-Item-Progress-Save-Editor/main/icons/';
-                console.log('📂 URLs set:', {
-                    config: this.remoteConfigUrl,
-                    items: this.remoteItemsUrl,
-                    icons: this.remoteIconsUrl
-                });
-                
-                // ===== THIS MUST BE HERE =====
-                console.log('🚀 Calling init()...');
                 this.init();
-                console.log('✅ init() returned!');
-                
                 this.bindEvents();
-                console.log('🏗️ Constructor finished!');
             }
 
+            // ============================================================
+            // INIT
+            // ============================================================
             async init() {
-                console.log('🔥 init() is running!');
                 this.updateStatus('Initializing...');
-                
                 await this.loadItemConfigs();
                 await this.loadAvailableItems();
-                
                 this.setupWindowControls();
                 this.setupUpdateChecker();
                 this.autoConnectAndLoad();
                 this.updateStatus('Ready');
-                
-                console.log('✅ init() completed!');
-                console.log('📊 Final counts:', {
-                    itemConfigs: Object.keys(this.itemConfigs).length,
-                    availableItems: this.availableItems.length
-                });
             }
 
-            async loadItemConfigs() {
-                console.log('🔄 loadItemConfigs() STARTED');
-                try {
-                    console.log('📡 Fetching configs from:', this.remoteConfigUrl);
-                    const res = await fetch(this.remoteConfigUrl);
-                    console.log('📡 Config response status:', res.status);
-                    
-                    if (!res.ok) {
-                        console.error('❌ HTTP Error:', res.status);
-                        throw new Error(`HTTP ${res.status}`);
-                    }
-                    
-                    const data = await res.json();
-                    console.log('✅ Configs parsed! Keys:', Object.keys(data.itemConfigs || {}).length);
-                    this.itemConfigs = data.itemConfigs || {};
-                    this.rarityColors = data.rarityColors || {};
-                    console.log('✅ itemConfigs set to:', Object.keys(this.itemConfigs).length);
-                } catch (e) {
-                    console.error('❌❌❌ FATAL ERROR in loadItemConfigs:', e);
-                    console.error('    URL was:', this.remoteConfigUrl);
-                    this.createFallbackConfigs();
-                }
-                console.log('🔄 loadItemConfigs() FINISHED');
-            }
-
-  async loadAvailableItems() {
-    console.log('🔄 loadAvailableItems() STARTED');
-    try {
-        console.log('📡 Fetching items from itemConfigs...');
-        const res = await fetch(this.remoteConfigUrl);
-        console.log('📡 Response status:', res.status);
-        
-        if (!res.ok) {
-            console.error('❌ HTTP Error:', res.status);
-            throw new Error(`HTTP ${res.status}`);
-        }
-        
-        const data = await res.json();
-        console.log('✅ Configs parsed!');
-        
-        // Convert itemConfigs object to array
-        const items = Object.keys(data.itemConfigs || {}).map(key => ({
-            baseItemId: key,
-            ...data.itemConfigs[key]
-        }));
-        
-        console.log('✅ Items created from configs! Count:', items.length);
-        
-        if (items.length > 0) {
-            console.log('📦 First 3 items:', items.slice(0, 3));
-        }
-        
-        this.availableItems = items;
-        this.itemTemplates = {};
-        for (const entry of items) {
-            if (entry.baseItemId) this.itemTemplates[entry.baseItemId] = entry;
-        }
-        console.log('✅ availableItems set to:', this.availableItems.length);
-    } catch (e) {
-        console.error('❌❌❌ FATAL ERROR in loadAvailableItems:', e);
-        console.error('    URL was:', this.remoteConfigUrl);
-        this.availableItems = [];
-        this.itemTemplates = {};
-    }
-    console.log('🔄 loadAvailableItems() FINISHED');
-}
-
-            createFallbackConfigs() {
-                console.log('⚠️ Creating fallback configs');
-                this.itemConfigs = {};
-                this.rarityColors = {
-                    common: '#9e9e9e',
-                    uncommon: '#4caf50',
-                    rare: '#2196f3',
-                    epic: '#9c27b0',
-                    exotic: '#ff4e4e',
-                    legendary: '#ff9800'
-                };
-            }
-
-            // ===== PAGE NAVIGATION =====
-            switchPage(page) {
-                this.currentPage = page;
-                const inventoryPage = document.getElementById('inventory-wrapper');
-                const browsePanel = document.getElementById('browse-panel');
-                const searchBar = document.getElementById('search-bar');
-                const header = document.getElementById('main-header');
-                const progressPage = document.getElementById('progress-page');
-                const inventoryBtn = document.getElementById('btn-inventory');
-                const progressBtn = document.getElementById('btn-progress');
-
-                if (page === 'inventory') {
-                    inventoryPage.classList.remove('hidden');
-                    searchBar.classList.remove('hidden');
-                    header.classList.remove('hidden');
-                    progressPage.classList.remove('active');
-                    browsePanel.classList.remove('open');
-                    this.browseOpen = false;
-                    inventoryBtn.classList.add('active');
-                    progressBtn.classList.remove('active');
-                } else {
-                    inventoryPage.classList.add('hidden');
-                    searchBar.classList.add('hidden');
-                    header.classList.add('hidden');
-                    progressPage.classList.add('active');
-                    browsePanel.classList.remove('open');
-                    this.browseOpen = false;
-                    progressBtn.classList.add('active');
-                    inventoryBtn.classList.remove('active');
-                }
-            }
-
+            // ============================================================
+            // WINDOW CONTROLS
+            // ============================================================
             setupWindowControls() {
-                const minBtn = document.getElementById('minimize-btn');
-                const maxBtn = document.getElementById('maximize-btn');
-                const closeBtn = document.getElementById('close-btn');
                 if (window.electronAPI?.windowMinimize) {
-                    minBtn.addEventListener('click', () => window.electronAPI.windowMinimize());
-                    maxBtn.addEventListener('click', async () => {
+                    document.getElementById('minimize-btn').addEventListener('click', () => window.electronAPI
+                    .windowMinimize());
+                    document.getElementById('maximize-btn').addEventListener('click', async () => {
                         await window.electronAPI.windowMaximize();
                         this.updateMaximizeBtn();
                     });
-                    closeBtn.addEventListener('click', () => window.electronAPI.windowClose());
+                    document.getElementById('close-btn').addEventListener('click', () => window.electronAPI.windowClose());
                     this.updateMaximizeBtn();
                 } else {
                     document.querySelector('.title-bar').style.display = 'none';
@@ -1855,15 +1565,23 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
             async updateMaximizeBtn() {
                 if (window.electronAPI?.windowIsMaximized) {
                     const isMax = await window.electronAPI.windowIsMaximized();
-                    document.getElementById('maximize-btn').innerHTML = isMax ? '<i class="fas fa-clone"></i>' : '<i class="fas fa-square"></i>';
+                    document.getElementById('maximize-btn').textContent = isMax ? '❐' : '□';
                 }
             }
 
+            // ============================================================
+            // UPDATE CHECKER
+            // ============================================================
             setupUpdateChecker() {
                 if (!window.electronAPI) return;
                 const btn = document.getElementById('update-btn');
                 btn.style.display = 'flex';
                 btn.addEventListener('click', () => this.checkUpdates());
+                if (window.electronAPI.getCurrentVersion) {
+                    window.electronAPI.getCurrentVersion().then(v => {
+                        // Update version in status
+                    });
+                }
             }
 
             async checkUpdates() {
@@ -1881,12 +1599,65 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                 btn.disabled = false;
             }
 
+            // ============================================================
+            // DATA LOADING
+            // ============================================================
+            async loadItemConfigs() {
+                try {
+                    const res = await fetch(this.remoteConfigUrl);
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    const data = await res.json();
+                    this.itemConfigs = data.itemConfigs || {};
+                    this.rarityColors = data.rarityColors || {};
+                    console.log(`✅ Loaded ${Object.keys(this.itemConfigs).length} configs`);
+                } catch (e) {
+                    console.error('Config load error:', e);
+                    this.createFallbackConfigs();
+                }
+            }
+
+            async loadAvailableItems() {
+                try {
+                    const res = await fetch(this.remoteItemsUrl);
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    const items = await res.json();
+                    this.availableItems = items;
+                    this.itemTemplates = {};
+                    for (const entry of items) {
+                        if (entry.baseItemId) this.itemTemplates[entry.baseItemId] = entry;
+                    }
+                    console.log(
+                        `✅ Loaded ${this.availableItems.length} items, ${Object.keys(this.itemTemplates).length} templates`
+                        );
+                } catch (e) {
+                    console.error('Item load error:', e);
+                    this.availableItems = [];
+                    this.itemTemplates = {};
+                }
+            }
+
+            createFallbackConfigs() {
+                this.itemConfigs = {};
+                this.rarityColors = {
+                    common: '#9e9e9e',
+                    uncommon: '#4caf50',
+                    rare: '#2196f3',
+                    epic: '#9c27b0',
+                    exotic: '#ff4e4e',
+                    legendary: '#ff9800'
+                };
+            }
+
+            // ============================================================
+            // DATABASE CONNECTION
+            // ============================================================
             async autoConnectAndLoad() {
                 try {
                     await this.connectToDatabase();
                     await this.loadInventory();
                     this.startStatsUpdates();
                 } catch (e) {
+                    console.error('Auto-connect failed:', e);
                     this.updateStatus('❌ Connection failed');
                 }
             }
@@ -1922,7 +1693,9 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                         body: JSON.stringify(this.inventory)
                     });
                     if (res.ok) this.showAutoSave();
-                } catch (e) {}
+                } catch (e) {
+                    console.error('Save error:', e);
+                }
             }
 
             async loadBalance() {
@@ -1933,8 +1706,27 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                     document.getElementById('aurum-value').value = bal.AU || 0;
                     document.getElementById('kmarks-value').value = bal.SC || 0;
                     document.getElementById('insurance-value').value = bal.IN || 0;
-                } catch (e) {}
+                } catch (e) { /* ignore */ }
             }
+            async setFaction(faction, value = 999999) {
+    try {
+        const response = await fetch(`${this.apiBaseUrl}/faction`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ faction, value })
+        });
+        const data = await response.json();
+        this.showToast(data.success ? `✅ ${faction} maxed!` : `❌ ${data.message}`);
+    } catch (error) {
+        this.showToast(`❌ Error: ${error.message}`);
+    }
+}
+
+async setAllFactions() {
+    await this.setFaction('Korolev');
+    await this.setFaction('ICA');
+    await this.setFaction('Osiris');
+}
 
             async saveBalance() {
                 try {
@@ -1948,251 +1740,129 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(bal)
                     });
-                } catch (e) {}
+                } catch (e) { /* ignore */ }
             }
 
-            // ===== FACTION FUNCTIONS =====
-            async setFaction(faction, value = 999999) {
-                try {
-                    const response = await fetch(`${this.apiBaseUrl}/faction`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ faction, value })
-                    });
-                    const data = await response.json();
-                    this.showToast(data.success ? `✅ ${faction} maxed!` : `❌ ${data.message}`);
-                } catch (error) {
-                    this.showToast(`❌ Error: ${error.message}`);
-                }
-            }
-
-            async setAllFactions() {
-                await this.setFaction('Korolev');
-                await this.setFaction('ICA');
-                await this.setFaction('Osiris');
-            }
-
-            async giveForgeArmor() {
-                const forgeItems = [
-                    {"itemId":"056a70b6-019b-43c6-a757-97914e205352","baseItemId":"Helmet_Altered_03","primaryVanityId":0,"secondaryVanityId":0,"amount":1,"durability":1000,"modData":{"m":[]},"rolledPerks":[{"i":4,"r":1},{"i":5,"r":0}],"insurance":"","insuranceOwnerPlayfabId":"4BEA22D4219F4FD5","insuredAttachmentId":"","origin":{"t":"","p":"","g":""}},
-                    {"itemId":"056a10b6-019b-43c6-a757-97914e205352","baseItemId":"Shield_Altered_03","primaryVanityId":0,"secondaryVanityId":0,"amount":1,"durability":1000,"modData":{"m":[]},"rolledPerks":[{"i":3,"r":1},{"i":5,"r":0}],"insurance":"","insuranceOwnerPlayfabId":"4BEA22D4219F4FD5","insuredAttachmentId":"","origin":{"t":"","p":"","g":""}},
-                    {"itemId":"056a70b6-012b-43c6-a757-97914e205352","baseItemId":"Bag_Altered_03","primaryVanityId":0,"secondaryVanityId":0,"amount":1,"durability":1000,"modData":{"m":[]},"rolledPerks":[{"i":19,"r":0},{"i":17,"r":1}],"insurance":"","insuranceOwnerPlayfabId":"4BEA22D4219F4FD5","insuredAttachmentId":"","origin":{"t":"","p":"","g":""}},
-                    {"itemId":"2edd4dae-75f6-46e7-9bea-355a512bb05d","baseItemId":"WP_A_Pistol_Bullet_01","primaryVanityId":260,"secondaryVanityId":36,"amount":1,"durability":-1,"modData":{"m":[207,185,136,132,180]},"rolledPerks":[],"insurance":"","insuranceOwnerPlayfabId":"","insuredAttachmentId":"","origin":{"t":"","p":"","g":""}},
-                    {"itemId":"63c5afc7-1aa4-4805-a86c-f8a58b7d5d46","baseItemId":"WP_D_SMG_Energy_01","primaryVanityId":31,"secondaryVanityId":6,"amount":1,"durability":-1,"modData":{"m":[132,136,212,185,199,164,180,207]},"rolledPerks":[],"insurance":"","insuranceOwnerPlayfabId":"","insuredAttachmentId":"","origin":{"t":"","p":"","g":""}},
-                    {"itemId":"0dafe003-5666-4468-9a74-a94d2138ac98","baseItemId":"WP_A_AR_Bullet_01","primaryVanityId":58,"secondaryVanityId":58,"amount":1,"durability":-1,"modData":{"m":[183,207,164,199,187,137,132,139]},"rolledPerks":[],"insurance":"","insuranceOwnerPlayfabId":"","insuredAttachmentId":"","origin":{"t":"","p":"","g":""}}
-                ];
-
-                for (const item of forgeItems) {
-                    const exists = this.inventory.some(i => i.itemId === item.itemId);
-                    if (!exists) {
-                        this.inventory.push(item);
-                    }
-                }
-                this.renderInventory();
-                this.autoSave();
-                this.showToast('✅ Forge Armor set added!');
-            }
-
-            async generatorFix() {
-                try {
-                    const response = await fetch(`${this.apiBaseUrl}/generator-fix`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            aurumCap: 19,
-                            aurumRate: 20,
-                            kmarksCap: 19,
-                            kmarksRate: 20,
-                            crateTier: 8,
-                            addStashSize: 15,
-                            addSafePocketSize: 5,
-                            upgradeSpeedFactor: 12
-                        })
-                    });
-                    const data = await response.json();
-                    this.showToast(data.success ? '✅ Generator fixed!' : `❌ ${data.message}`);
-                } catch (error) {
-                    this.showToast(`❌ Error: ${error.message}`);
-                }
-            }
-
-            async maxPlayerQuarters() {
-                try {
-                    const response = await fetch(`${this.apiBaseUrl}/max-quarters`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ level: 11 })
-                    });
-                    const data = await response.json();
-                    this.showToast(data.success ? '✅ Player Quarters maxed!' : `❌ ${data.message}`);
-                } catch (error) {
-                    this.showToast(`❌ Error: ${error.message}`);
-                }
-            }
-
-            async skipBadum() {
-                try {
-                    const response = await fetch(`${this.apiBaseUrl}/skip-badum`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ progress: 999999 })
-                    });
-                    const data = await response.json();
-                    this.showToast(data.success ? '✅ Badum skipped!' : `❌ ${data.message}`);
-                } catch (error) {
-                    this.showToast(`❌ Error: ${error.message}`);
-                }
-            }
-
-            async maxTechTree() {
-                try {
-                    const response = await fetch(`${this.apiBaseUrl}/max-tech-tree`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ action: 'max' })
-                    });
-                    const data = await response.json();
-                    this.showToast(data.success ? '✅ Tech Tree maxed!' : `❌ ${data.message}`);
-                } catch (error) {
-                    this.showToast(`❌ Error: ${error.message}`);
-                }
-            }
-
-            // ===== RENDER FUNCTIONS =====
+            // ============================================================
+            // RENDER
+            // ============================================================
             renderInventory() {
-    const grid = document.getElementById('inventory-grid');
-    
-    // ===== FILTER: ONLY show items that exist in itemConfigs =====
-    const filtered = this.inventory.filter(item => {
-        if (!item?.baseItemId) return false;
-        
-        // ONLY show items that are in itemConfigs
-        if (!this.itemConfigs[item.baseItemId]) {
-            // Skip this item - it's not in itemConfigs
-            return false;
-        }
-        
-        const config = this.getItemConfig(item.baseItemId);
-        const matchCat = this.selectedCategory === 'all' || config.category === this.selectedCategory;
-        const matchSearch = !this.currentFilter ||
-            item.baseItemId.toLowerCase().includes(this.currentFilter) ||
-            config.displayName.toLowerCase().includes(this.currentFilter);
-        return matchCat && matchSearch;
-    });
-    // ===== END OF FILTER =====
+                const grid = document.getElementById('inventory-grid');
+                const filtered = this.inventory.filter(item => {
+                    if (!item?.baseItemId) return false;
+                    const config = this.getItemConfig(item.baseItemId);
+                    const matchCat = this.selectedCategory === 'all' || config.category === this.selectedCategory;
+                    const matchSearch = !this.currentFilter ||
+                        item.baseItemId.toLowerCase().includes(this.currentFilter) ||
+                        config.displayName.toLowerCase().includes(this.currentFilter);
+                    return matchCat && matchSearch;
+                });
 
-    document.getElementById('item-count').textContent = `${filtered.length} items`;
+                document.getElementById('item-count').textContent = `${filtered.length} items`;
 
-    if (filtered.length === 0) {
-        grid.innerHTML = `
-            <div class="empty-state">
-                <div class="icon"><i class="fas fa-archive"></i></div>
-                <div class="text">No items found</div>
-                <div class="sub">Click <i class="fas fa-plus-circle"></i> Browse Items to add some</div>
-            </div>
-        `;
-        return;
-    }
+                if (filtered.length === 0) {
+                    grid.innerHTML = `
+                        <div class="empty-state">
+                            <div class="icon"><i class="fas fa-archive"></i></div>
+                            <div class="text">No items found</div>
+                            <div class="sub">Click <i class="fas fa-plus-circle"></i> Browse Items to add some</div>
+                        </div>
+                    `;
+                    return;
+                }
 
-    grid.innerHTML = '';
-    filtered.forEach((item, idx) => {
-        const config = this.getItemConfig(item.baseItemId);
-        const icon = this.getItemIcon(item.baseItemId);
-        const slot = document.createElement('div');
-        slot.className = 'item-slot';
-        slot.innerHTML = `
-            <div class="rarity-glow ${config.rarity}"></div>
-            <div class="item-image rarity-${config.rarity}" style="background-image:url('${icon}')"></div>
-            <div class="item-name">${config.displayName}</div>
-            <div class="item-amount">${item.amount || 1}</div>
-        `;
-        const img = slot.querySelector('.item-image');
-        this.handleImageLoad(img, icon, item.baseItemId);
-        const actualIndex = this.inventory.indexOf(item);
-        slot.addEventListener('click', () => this.showItemDetail(item, actualIndex));
-        grid.appendChild(slot);
-    });
-}
+                grid.innerHTML = '';
+                filtered.forEach((item, idx) => {
+                    const config = this.getItemConfig(item.baseItemId);
+                    const icon = this.getItemIcon(item.baseItemId);
+                    const slot = document.createElement('div');
+                    slot.className = 'item-slot';
+                    slot.innerHTML = `
+                        <div class="rarity-glow ${config.rarity}"></div>
+                        <div class="item-image rarity-${config.rarity}" style="background-image:url('${icon}')"></div>
+                        <div class="item-name">${config.displayName}</div>
+                        <div class="item-amount">${item.amount || 1}</div>
+                    `;
+                    const img = slot.querySelector('.item-image');
+                    this.handleImageLoad(img, icon, item.baseItemId);
+                    slot.addEventListener('click', () => this.showItemDetail(item, this.inventory.indexOf(item)));
+                    grid.appendChild(slot);
+                });
+            }
 
             renderBrowseItems() {
-    console.log('🎯 Rendering browse items...');
-    console.log('  itemConfigs keys:', Object.keys(this.itemConfigs).length);
-    
-    const grid = document.getElementById('browse-grid');
-    if (!grid) {
-        console.error('❌ browse-grid element not found!');
-        return;
-    }
-    grid.innerHTML = '';
+                const grid = document.getElementById('browse-grid');
+                grid.innerHTML = '';
 
-    // ===== ONLY USE itemConfigs =====
-    const items = Object.keys(this.itemConfigs).map(key => ({
-        baseItemId: key,
-        ...this.itemConfigs[key]
-    }));
+                const unique = [];
+                const seen = new Set();
+                for (const item of this.availableItems) {
 
-    if (items.length === 0) {
-        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text-3);padding:32px;font-size:13px;">No items available.</div>';
-        return;
-    }
+                    if (item.baseItemId === "ShieldRestoration04") continue;
+                    
+                    if (!seen.has(item.baseItemId) && this.itemConfigs[item.baseItemId]) {
+                        unique.push(item);
+                        seen.add(item.baseItemId);
+                    }
+                }
 
-    const filtered = items.filter(item => {
-        const matchCat = this.selectedCategory === 'all' || item.category === this.selectedCategory;
-        const matchSearch = !this.currentFilter ||
-            item.displayName.toLowerCase().includes(this.currentFilter) ||
-            item.baseItemId.toLowerCase().includes(this.currentFilter);
-        return matchCat && matchSearch;
-    });
+                const filtered = unique.filter(item => {
+                    const config = this.getItemConfig(item.baseItemId);
+                    const matchCat = this.selectedCategory === 'all' || config.category === this.selectedCategory;
+                    const matchSearch = !this.currentFilter ||
+                        config.displayName.toLowerCase().includes(this.currentFilter) ||
+                        item.baseItemId.toLowerCase().includes(this.currentFilter);
+                    return matchCat && matchSearch;
+                });
 
-    const rarityOrder = { legendary: 6, exotic: 5, epic: 4, rare: 3, uncommon: 2, common: 1 };
-    filtered.sort((a, b) => {
-        const rarityA = rarityOrder[a.rarity] || 0;
-        const rarityB = rarityOrder[b.rarity] || 0;
-        return rarityB - rarityA;
-    });
+                if (filtered.length === 0) {
+                    grid.innerHTML =
+                        '<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:20px;">No items match</div>';
+                    return;
+                }
 
-    if (filtered.length === 0) {
-        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text-3);padding:16px;font-size:11px;">No items match your filters</div>';
-        return;
-    }
+                filtered.forEach(item => {
+                    const config = this.getItemConfig(item.baseItemId);
+                    const icon = this.getItemIcon(item.baseItemId);
+                    const div = document.createElement('div');
+                    div.className = 'browse-item';
+                    div.innerHTML = `
+                        <span class="rarity-dot" style="background:${this.rarityColors[config.rarity] || '#666'}"></span>
+                        <div class="icon rarity-${config.rarity}" style="background-image:url('${icon}')"></div>
+                        <div class="info">
+                            <div class="name">${config.displayName}</div>
+                            <div class="meta">${config.category} · ${config.rarity}</div>
+                        </div>
+                        <div class="controls">
+                            <input type="number" value="1" min="1" max="999" id="qty-${item.baseItemId}">
+                            <button class="add-btn" data-id="${item.baseItemId}"><i class="fas fa-plus"></i></button>
+                        </div>
+                    `;
+                    const img = div.querySelector('.icon');
+                    this.handleImageLoad(img, icon, item.baseItemId);
 
-    filtered.forEach(item => {
-        const icon = this.getItemIcon(item.baseItemId);
-        const div = document.createElement('div');
-        div.className = 'browse-item';
-        div.innerHTML = `
-            <span class="rarity-dot" style="background:${this.rarityColors[item.rarity] || '#666'}"></span>
-            <div class="icon rarity-${item.rarity}" style="background-image:url('${icon}')"></div>
-            <div class="info">
-                <div class="name">${item.displayName}</div>
-                <div class="meta">${item.category} · ${item.rarity}</div>
-            </div>
-            <div class="controls">
-                <input type="number" value="1" min="1" max="999" id="qty-${item.baseItemId}">
-                <button class="add-btn" data-id="${item.baseItemId}"><i class="fas fa-plus"></i> Add</button>
-            </div>
-        `;
-        const img = div.querySelector('.icon');
-        this.handleImageLoad(img, icon, item.baseItemId);
-        const btn = div.querySelector('.add-btn');
-        const input = div.querySelector('input');
-        btn.addEventListener('click', () => {
-            const qty = parseInt(input.value) || 1;
-            this.addItemToInventory(item.baseItemId, qty);
-        });
-        grid.appendChild(div);
-    });
-    console.log('✅ Rendered', filtered.length, 'items');
-}
+                    const btn = div.querySelector('.add-btn');
+                    const input = div.querySelector('input');
+                    btn.addEventListener('click', () => {
+                        const qty = parseInt(input.value) || 1;
+                        this.addItemToInventory(item.baseItemId, qty);
+                    });
 
-            // ===== ITEM MANAGEMENT =====
+                    grid.appendChild(div);
+                });
+            }
+
+            // ============================================================
+            // ITEM OPERATIONS
+            // ============================================================
             addItemToInventory(baseItemId, quantity) {
                 const amount = parseInt(quantity) || 1;
                 const config = this.getItemConfig(baseItemId);
-                if (this.consumableFix[config.displayName]) {
-                    baseItemId = this.consumableFix[config.displayName];
-                }
                 const isWeapon = baseItemId.startsWith('WP_') || config.category === 'weapons';
+// Add this at the start of addItemToInventory()
+if (this.consumableFix[config.displayName]) {
+    baseItemId = this.consumableFix[config.displayName];
+}
                 if (isWeapon) {
                     for (let i = 0; i < amount; i++) {
                         this.inventory.push({
@@ -2215,10 +1885,15 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                     this.showToast(`✅ Added ${amount}x ${config.displayName}`);
                     return;
                 }
+
                 let maxStack = config.maxStackSize || 50;
                 const effectiveMaxStack = maxStack > 0 ? maxStack : 1;
                 let remaining = amount;
-                const existing = this.inventory.filter(i => i.baseItemId === baseItemId && i.amount < effectiveMaxStack);
+
+                const existing = this.inventory.filter(i =>
+                    i.baseItemId === baseItemId && i.amount < effectiveMaxStack
+                );
+
                 for (const item of existing) {
                     if (remaining <= 0) break;
                     const canAdd = effectiveMaxStack - item.amount;
@@ -2226,6 +1901,7 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                     item.amount += toAdd;
                     remaining -= toAdd;
                 }
+
                 while (remaining > 0) {
                     const stackAmount = Math.max(1, Math.min(remaining, effectiveMaxStack));
                     this.inventory.push({
@@ -2244,6 +1920,7 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                     });
                     remaining -= stackAmount;
                 }
+
                 this.renderInventory();
                 this.autoSave();
                 this.showToast(`✅ Added ${amount}x ${config.displayName}`);
@@ -2290,27 +1967,31 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                 return result;
             }
 
-            // ===== MODAL FUNCTIONS =====
+            // ============================================================
+            // MODALS
+            // ============================================================
             showItemDetail(item, index) {
                 this.currentEditingIndex = index;
                 const config = this.getItemConfig(item.baseItemId);
                 const icon = this.getItemIcon(item.baseItemId);
                 const isWeapon = config.category === 'weapons' || config.category === 'attachments';
                 const showDurability = config.maxDurability > 0 && !isWeapon;
+
                 const body = document.getElementById('modal-body');
                 body.innerHTML = `
                     <div class="item-icon" style="background-image:url('${icon}');border-color:${this.rarityColors[config.rarity] || '#666'}"></div>
                     <div class="item-title" style="color:${this.rarityColors[config.rarity] || '#fff'}">${config.displayName}</div>
                     <div class="item-sub">${config.rarity.toUpperCase()} · ${config.category}</div>
+
                     <div class="field">
                         <span class="label">ID</span>
-                        <span class="value">${item.baseItemId}</span>
+                        <span class="value"><code>${item.baseItemId}</code></span>
                     </div>
                     <div class="field">
                         <span class="label">Amount</span>
-                        <div class="qty-edit-group">
-                            <input type="number" id="edit-qty" value="${item.amount || 1}" min="0" max="999">
-                            <button id="update-qty-btn">Update</button>
+                        <div style="display:flex;gap:6px;align-items:center;">
+                            <input type="number" id="edit-qty" value="${item.amount || 1}" min="0" max="999" style="width:50px;background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:4px;color:var(--text-primary);padding:2px 6px;text-align:center;font-family:inherit;outline:none;">
+                            <button class="primary" style="padding:2px 10px;background:linear-gradient(135deg,var(--accent-cyan),var(--accent-purple));color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:11px;" id="update-qty-btn">Update</button>
                         </div>
                     </div>
                     ${showDurability ? `
@@ -2328,6 +2009,7 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                     </div>
                 `;
 
+                // Amount update
                 document.getElementById('update-qty-btn')?.addEventListener('click', () => {
                     const qty = parseInt(document.getElementById('edit-qty').value) || 0;
                     if (qty <= 0) {
@@ -2342,21 +2024,24 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                     this.closeModal();
                 });
 
+                // Durability
                 const slider = document.getElementById('durability-slider');
                 if (slider) {
                     slider.addEventListener('input', () => {
                         const val = parseInt(slider.value);
-                        document.getElementById('durability-display').textContent =
-                            `${val} / ${config.maxDurability}`;
+                        document.getElementById('durability-display').textContent = `${val} / ${config.maxDurability}`;
                         this.inventory[index].durability = val;
                         this.autoSave();
                     });
                 }
 
+                // Remove
                 document.getElementById('remove-btn')?.addEventListener('click', () => {
                     this.removeItem(index);
                     this.closeModal();
                 });
+
+                // Close
                 document.getElementById('modal-close-btn')?.addEventListener('click', () => this.closeModal());
 
                 document.getElementById('modal-title').textContent = 'Item Details';
@@ -2368,31 +2053,38 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                 this.currentEditingIndex = null;
             }
 
+            // ============================================================
+            // CONFIRM MODAL
+            // ============================================================
             showConfirm(message, onConfirm) {
                 document.getElementById('confirm-message').textContent = message;
                 document.getElementById('confirm-overlay').classList.add('open');
+
                 const yes = document.getElementById('confirm-yes');
                 const no = document.getElementById('confirm-no');
                 const close = document.getElementById('confirm-close');
+
                 const cleanup = () => {
                     document.getElementById('confirm-overlay').classList.remove('open');
                     yes.removeEventListener('click', onYes);
                     no.removeEventListener('click', onNo);
                     close.removeEventListener('click', onNo);
                 };
-                const onYes = () => { cleanup(); onConfirm(); };
+
+                const onYes = () => { cleanup();
+                    onConfirm(); };
                 const onNo = () => { cleanup(); };
+
                 yes.addEventListener('click', onYes);
                 no.addEventListener('click', onNo);
                 close.addEventListener('click', onNo);
             }
 
-            // ===== ITEM CONFIG HELPERS =====
+            // ============================================================
+            // UTILITY
+            // ============================================================
             getItemConfig(baseItemId) {
                 if (this.itemConfigs[baseItemId]) return this.itemConfigs[baseItemId];
- console.warn('⚠️ Missing config for:', baseItemId);
-    console.log('  Available configs:', Object.keys(this.itemConfigs).slice(0, 10));
-
                 return {
                     displayName: this.cleanDisplayName(baseItemId),
                     category: this.guessCategory(baseItemId),
@@ -2408,7 +2100,8 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                 if (i.includes('wp_')) return 'weapons';
                 if (i.includes('consumable')) return 'consumables';
                 if (i.includes('shield') || i.includes('helmet') || i.includes('bag') || i.includes('vest')) return 'armor';
-                if (i.includes('light') || i.includes('medium') || i.includes('heavy') || i.includes('shotgun') || i.includes('special')) return 'ammo';
+                if (i.includes('light') || i.includes('medium') || i.includes('heavy') || i.includes('shotgun') || i
+                    .includes('special')) return 'ammo';
                 if (i.includes('tool') || i.includes('scanner')) return 'tools';
                 if (i.includes('mod_')) return 'attachments';
                 return 'materials';
@@ -2428,9 +2121,11 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                 const i = id.toLowerCase();
                 if (i.includes('oldcurrency') || i.includes('old_currency')) return 999999;
                 if (i.includes('consumable') || i.includes('grenade')) return 5;
-                if (i.includes('light') || i.includes('medium') || i.includes('heavy') || i.includes('shotgun') || i.includes('special')) return 250;
+                if (i.includes('light') || i.includes('medium') || i.includes('heavy') || i.includes('shotgun') || i
+                    .includes('special')) return 250;
                 if (i.includes('veltecite') || i.includes('nickel') || i.includes('materials')) return 100;
-                if (i.includes('wp_') || i.includes('helmet') || i.includes('shield') || i.includes('bag') || i.includes('vest')) return 1;
+                if (i.includes('wp_') || i.includes('helmet') || i.includes('shield') || i.includes('bag') || i.includes(
+                    'vest')) return 1;
                 return 20;
             }
 
@@ -2468,7 +2163,6 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                 });
             }
 
-            // ===== IMAGE HANDLING =====
             handleImageLoad(element, imagePath, itemId) {
                 if (this.imageErrors.has(imagePath)) {
                     element.classList.add('error');
@@ -2486,10 +2180,13 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                 img.src = imagePath;
             }
 
-            // ===== STATUS & UI =====
+            // ============================================================
+            // UI HELPERS
+            // ============================================================
             updateStatus(msg) {
                 const el = document.getElementById('status-text');
                 if (el) el.textContent = msg;
+                console.log('📊', msg);
             }
 
             updateConnectionStatus(connected) {
@@ -2512,7 +2209,7 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                 container.appendChild(toast);
                 setTimeout(() => {
                     toast.classList.add('out');
-                    setTimeout(() => toast.remove(), 300);
+                    setTimeout(() => toast.remove(), 400);
                 }, 3000);
             }
 
@@ -2528,6 +2225,9 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                 this.autoSaveTimeout = setTimeout(() => this.saveInventory(), 500);
             }
 
+            // ============================================================
+            // STATS
+            // ============================================================
             async pingUserStats() {
                 try {
                     await fetch(`${this.apiBaseUrl}/user/ping`, {
@@ -2535,7 +2235,7 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ version: '2.0.0' })
                     });
-                } catch (e) {}
+                } catch (e) { /* ignore */ }
             }
 
             startStatsUpdates() {
@@ -2543,7 +2243,146 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                 setInterval(() => this.pingUserStats(), 300000);
             }
 
-            // ===== BACKUP FUNCTIONS =====
+            // ============================================================
+            // EVENTS
+            // ============================================================
+ bindEvents() {
+    // Category buttons
+    document.querySelectorAll('.sidebar-btn[data-category]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.sidebar-btn[data-category]').forEach(b => b.classList.remove(
+            'active'));
+            btn.classList.add('active');
+            this.selectedCategory = btn.dataset.category;
+            this.renderInventory();
+            if (this.browseOpen) this.renderBrowseItems();
+        });
+    });
+
+    // Browse
+    document.getElementById('browse-btn').addEventListener('click', () => {
+        this.browseOpen = !this.browseOpen;
+        document.getElementById('browse-panel').classList.toggle('open', this.browseOpen);
+        if (this.browseOpen) this.renderBrowseItems();
+    });
+    document.getElementById('close-browse').addEventListener('click', () => {
+        this.browseOpen = false;
+        document.getElementById('browse-panel').classList.remove('open');
+    });
+
+    // Search
+    document.getElementById('search-input').addEventListener('input', (e) => {
+        this.currentFilter = e.target.value.toLowerCase();
+        this.renderInventory();
+        if (this.browseOpen) this.renderBrowseItems();
+    });
+
+    // Actions
+    document.getElementById('clear-btn').addEventListener('click', () => this.clearInventory());
+    document.getElementById('backup-btn').addEventListener('click', () => this.exportBackup());
+    document.getElementById('restore-btn').addEventListener('click', () => this.importBackup());
+    document.getElementById('reload-btn').addEventListener('click', () => this.reloadAll());
+    document.getElementById('reload-header-btn').addEventListener('click', () => this.reloadAll());
+    document.getElementById('launch-btn').addEventListener('click', () => this.launchGame());
+    document.getElementById('configure-btn').addEventListener('click', () => this.configureGame());
+
+    // Currency
+    ['aurum-value', 'kmarks-value', 'insurance-value'].forEach(id => {
+        document.getElementById(id).addEventListener('change', () => this.saveBalance());
+    });
+
+    // Modal close
+    document.getElementById('modal-close').addEventListener('click', () => this.closeModal());
+    document.getElementById('modal-overlay').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) this.closeModal();
+    });
+
+    // Confirm close
+    document.getElementById('confirm-overlay').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) document.getElementById('confirm-overlay').classList.remove(
+        'open');
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            this.closeModal();
+            document.getElementById('confirm-overlay').classList.remove('open');
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+            e.preventDefault();
+            document.getElementById('search-input').focus();
+        }
+    });
+
+    // Game config check
+    this.checkGameConfig();
+
+    // ===== FACTION BUTTONS =====
+    document.getElementById('faction-korolev').addEventListener('click', () => this.setFaction('Korolev'));
+    document.getElementById('faction-ica').addEventListener('click', () => this.setFaction('ICA'));
+    document.getElementById('faction-osiris').addEventListener('click', () => this.setFaction('Osiris'));
+
+    // ===== PROGRESS PAGE BUTTONS =====
+    document.getElementById('faction-all').addEventListener('click', () => this.setAllFactions());
+    document.getElementById('forge-armor-btn').addEventListener('click', () => this.giveForgeArmor());
+    document.getElementById('generator-fix-btn').addEventListener('click', () => this.generatorFix());
+    document.getElementById('max-quarters-btn').addEventListener('click', () => this.maxPlayerQuarters());
+    document.getElementById('max-tech-tree-btn').addEventListener('click', () => this.maxTechTree());
+
+    // ===== SKIP BADUM BUTTON (FIXED) =====
+    const skipBtn = document.getElementById('skip-badum-btn');
+    if (skipBtn) {
+        // Remove existing listeners by cloning
+        const newBtn = skipBtn.cloneNode(true);
+        skipBtn.parentNode.replaceChild(newBtn, skipBtn);
+        
+        // Add the listener
+        newBtn.addEventListener('click', () => {
+            console.log('🔵 Skip Badum button clicked!');
+            this.skipBadum();
+        });
+        console.log('✅ Skip Badum button connected!');
+    } else {
+        console.error('❌ Skip Badum button not found!');
+    }
+}
+            // ============================================================
+            // GAME LAUNCHER
+            // ============================================================
+            async launchGame() {
+                if (!window.electronAPI?.launchGame) {
+                    this.showToast('❌ Game launcher only available in desktop app');
+                    return;
+                }
+                const btn = document.getElementById('launch-btn');
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                btn.disabled = true;
+                try {
+                    const result = await window.electronAPI.launchGame();
+                    this.showToast(result.success ? '✅ Game launched!' : '❌ ' + result.message);
+                } catch (e) {
+                    this.showToast('❌ Launch failed');
+                }
+                btn.innerHTML = '<i class="fas fa-play"></i>';
+                btn.disabled = false;
+            }
+
+            async configureGame() {
+                if (!window.electronAPI?.configureGamePaths) return;
+                await window.electronAPI.configureGamePaths();
+                this.checkGameConfig();
+            }
+
+            async checkGameConfig() {
+                if (!window.electronAPI?.checkGameConfigured) return;
+                const configured = await window.electronAPI.checkGameConfigured();
+                document.getElementById('configure-btn').style.display = configured ? 'none' : 'flex';
+            }
+
+            // ============================================================
+            // BACKUP
+            // ============================================================
             exportBackup() {
                 const data = { timestamp: new Date().toISOString(), inventory: this.inventory };
                 const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -2582,6 +2421,9 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                 input.click();
             }
 
+            // ============================================================
+            // RELOAD
+            // ============================================================
             async reloadAll() {
                 this.showToast('🔄 Reloading...');
                 await this.loadItemConfigs();
@@ -2591,91 +2433,18 @@ this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-It
                 if (this.browseOpen) this.renderBrowseItems();
                 this.showToast('✅ Reloaded');
             }
-
-            // ===== BIND EVENTS =====
-            bindEvents() {
-                document.getElementById('btn-inventory').addEventListener('click', () => this.switchPage('inventory'));
-                document.getElementById('btn-progress').addEventListener('click', () => this.switchPage('progress'));
-
-                document.querySelectorAll('.sidebar-btn[data-category]').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        document.querySelectorAll('.sidebar-btn[data-category]').forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                        this.selectedCategory = btn.dataset.category;
-                        this.renderInventory();
-                        if (this.browseOpen) this.renderBrowseItems();
-                    });
-                });
-
-                document.getElementById('browse-btn').addEventListener('click', () => {
-                    if (this.currentPage === 'progress') {
-                        this.switchPage('inventory');
-                    }
-                    this.browseOpen = !this.browseOpen;
-                    document.getElementById('browse-panel').classList.toggle('open', this.browseOpen);
-                    if (this.browseOpen) this.renderBrowseItems();
-                });
-                document.getElementById('close-browse').addEventListener('click', () => {
-                    this.browseOpen = false;
-                    document.getElementById('browse-panel').classList.remove('open');
-                });
-
-                document.getElementById('search-input').addEventListener('input', (e) => {
-                    this.currentFilter = e.target.value.toLowerCase();
-                    this.renderInventory();
-                    if (this.browseOpen) this.renderBrowseItems();
-                });
-
-                document.getElementById('clear-btn').addEventListener('click', () => this.clearInventory());
-                document.getElementById('backup-btn').addEventListener('click', () => this.exportBackup());
-                document.getElementById('restore-btn').addEventListener('click', () => this.importBackup());
-                document.getElementById('reload-btn').addEventListener('click', () => this.reloadAll());
-                document.getElementById('reload-header-btn').addEventListener('click', () => this.reloadAll());
-
-                ['aurum-value', 'kmarks-value', 'insurance-value'].forEach(id => {
-                    document.getElementById(id).addEventListener('change', () => this.saveBalance());
-                });
-
-                document.getElementById('modal-close').addEventListener('click', () => this.closeModal());
-                document.getElementById('modal-overlay').addEventListener('click', (e) => {
-                    if (e.target === e.currentTarget) this.closeModal();
-                });
-
-                document.getElementById('confirm-overlay').addEventListener('click', (e) => {
-                    if (e.target === e.currentTarget) document.getElementById('confirm-overlay').classList.remove('open');
-                });
-
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') {
-                        this.closeModal();
-                        document.getElementById('confirm-overlay').classList.remove('open');
-                    }
-                    if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
-                        e.preventDefault();
-                        document.getElementById('search-input').focus();
-                    }
-                });
-
-                // Progress buttons
-                document.getElementById('faction-all').addEventListener('click', () => this.setAllFactions());
-                document.getElementById('faction-korolev').addEventListener('click', () => this.setFaction('Korolev'));
-                document.getElementById('faction-ica').addEventListener('click', () => this.setFaction('ICA'));
-                document.getElementById('faction-osiris').addEventListener('click', () => this.setFaction('Osiris'));
-                document.getElementById('forge-armor-btn').addEventListener('click', () => this.giveForgeArmor());
-                document.getElementById('generator-fix-btn').addEventListener('click', () => this.generatorFix());
-                document.getElementById('max-quarters-btn').addEventListener('click', () => this.maxPlayerQuarters());
-                document.getElementById('skip-badum-btn').addEventListener('click', () => this.skipBadum());
-                document.getElementById('max-tech-tree-btn').addEventListener('click', () => this.maxTechTree());
-            }
         }
 
-        // ===== CREATE THE EDITOR =====
+        // ============================================================
+        // INIT
+        // ============================================================
         const editor = new CycleRebornEditor();
+
         console.log(`
         ╔═══════════════════════════════════════════╗
-        ║  🔧 SP-Cycle Item/Save Editor             ║
-        ║       Maintained by Constance             ║
-        ║  Discord: https://discord.gg/gvgbca8yxz   ║
+        ║  🔧 The Cycle: Reborn Save Editor        ║
+        ║  Made by Lxjo · Maintained by Constance  ║
+        ║  Discord: https://discord.gg/gvgbca8yxz  ║
         ╚═══════════════════════════════════════════╝
         `);
     </script>
