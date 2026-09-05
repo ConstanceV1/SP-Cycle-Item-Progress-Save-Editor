@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cycle // Inventory Console</title>
+    <title>SP Cycle Item/Progress Save Editor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1231,7 +1231,6 @@
         .gap-2 { gap: 8px; }
         .gap-3 { gap: 12px; }
 
-        /* ============ PROGRESS PAGE STYLES ============ */
         .progress-page {
             display: none;
             flex: 1;
@@ -1402,16 +1401,15 @@
             display: none;
         }
     </style>
-
 </head>
 <body>
 
-    <!-- ============ TITLE BAR ============ -->
+    <!-- ===== TITLE BAR ===== -->
     <div class="title-bar">
         <div class="brand">
             <div class="logo-badge">⚡</div>
-            <span class="brand-name">CYCLE // INVENTORY CONSOLE</span>
-            <span class="brand-version">FRONTIER // 2.0</span>
+            <span class="brand-name">SP CYCLE // ITEM EDITOR</span>
+            <span class="brand-version">v2.0.1</span>
             <span class="status-dot" id="title-dot"></span>
         </div>
         <div class="title-controls" id="title-controls">
@@ -1421,10 +1419,10 @@
         </div>
     </div>
 
-    <!-- ============ APP ============ -->
+    <!-- ===== APP ===== -->
     <div class="app">
 
-        <!-- ============ SIDEBAR ============ -->
+        <!-- ===== SIDEBAR ===== -->
         <nav class="sidebar" id="sidebar">
             <div class="logo-icon">⚡</div>
 
@@ -1502,7 +1500,7 @@
             </button>
         </nav>
 
-        <!-- ============ MAIN CONTENT ============ -->
+        <!-- ===== MAIN CONTENT ===== -->
         <main class="main">
 
             <!-- Header -->
@@ -1559,14 +1557,13 @@
                 <div class="browse-grid" id="browse-grid"></div>
             </div>
 
-            <!-- ============ PROGRESS PAGE ============ -->
+            <!-- Progress Page -->
             <div class="progress-page" id="progress-page">
                 <div class="page-title">📈 Progression</div>
                 <div class="page-subtitle">Boost your game progress with one click</div>
 
                 <div class="progress-grid">
 
-                    <!-- Factions Card -->
                     <div class="progress-card">
                         <div class="card-title"><i class="fas fa-crown" style="color:#fbbf24;"></i> Max Factions</div>
                         <div class="card-desc">Max out all faction reputations to 999,999</div>
@@ -1578,7 +1575,6 @@
                         </div>
                     </div>
 
-                    <!-- Forge Armor Card -->
                     <div class="progress-card">
                         <div class="card-title"><i class="fas fa-hammer" style="color:#fbbf24;"></i> Forge Armor</div>
                         <div class="card-desc">Give legendary forged armor set (Helmet, Shield, Bag + 3 weapons)</div>
@@ -1587,7 +1583,6 @@
                         </div>
                     </div>
 
-                    <!-- Generator Fix Card -->
                     <div class="progress-card">
                         <div class="card-title"><i class="fas fa-bolt" style="color:#34d399;"></i> Generator Fix</div>
                         <div class="card-desc">Max generator rates and caps (aurum, kmarks, crate tier, etc.)</div>
@@ -1596,7 +1591,6 @@
                         </div>
                     </div>
 
-                    <!-- Player Quarters Card -->
                     <div class="progress-card">
                         <div class="card-title"><i class="fas fa-home" style="color:#f472b6;"></i> Max Quarters</div>
                         <div class="card-desc">Upgrade Player Quarters to level 11</div>
@@ -1605,7 +1599,6 @@
                         </div>
                     </div>
 
-                    <!-- Skip Badum Card -->
                     <div class="progress-card">
                         <div class="card-title"><i class="fas fa-forward" style="color:#60a5fa;"></i> Skip Badum</div>
                         <div class="card-desc">Skip Badum onboarding (sets progress to 999999)</div>
@@ -1614,7 +1607,6 @@
                         </div>
                     </div>
 
-                    <!-- Tech Tree Card -->
                     <div class="progress-card">
                         <div class="card-title"><i class="fas fa-code-branch" style="color:#a78bfa;"></i> Max Tech Tree</div>
                         <div class="card-desc">Unlock all Tech Tree nodes (stash, bag, generators, crates)</div>
@@ -1629,10 +1621,10 @@
         </main>
     </div>
 
-    <!-- ============ TOAST ============ -->
+    <!-- ===== TOAST ===== -->
     <div class="toast-container" id="toast-container"></div>
 
-    <!-- ============ MODAL ============ -->
+    <!-- ===== MODAL ===== -->
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal" id="modal">
             <div class="modal-header">
@@ -1643,7 +1635,7 @@
         </div>
     </div>
 
-    <!-- ============ CONFIRM MODAL ============ -->
+    <!-- ===== CONFIRM MODAL ===== -->
     <div class="modal-overlay confirm-modal" id="confirm-overlay">
         <div class="modal">
             <div class="modal-header">
@@ -1661,25 +1653,14 @@
         </div>
     </div>
 
-    <!-- ============ STATUS BAR ============ -->
-    <div class="status-bar">
-        <div class="left">
-            <span class="dot" id="status-dot"></span>
-            <span id="status-text">Initializing...</span>
-        </div>
-        <div class="center">
-            Made by <a href="https://github.com/ConstanceV1" target="_blank">Constance</a> · Maintained by Constance ·
-            <a href="https://discord.gg/gvgbca8yxz" target="_blank"><i class="fab fa-discord"></i> Discord</a>
-        </div>
-        <div class="right">
-            <span id="connection-text">Connecting...</span>
-        </div>
-    </div>
+    
 
-    <!-- ============ SCRIPT ============ -->
+    <!-- ===== SCRIPT ===== -->
     <script>
         class CycleRebornEditor {
             constructor() {
+                console.log('🏗️ Constructor started...');
+                
                 this.inventory = [];
                 this.availableItems = [];
                 this.itemTemplates = {};
@@ -1700,100 +1681,116 @@
                     "Strong Medkit": "Consumable_Health_03",
                     "Combat Medkit": "Consumable_Health_06"
                 };
+                
+                // ===== THE FIX: Correct URLs =====
                 this.apiBaseUrl = '/api';
 this.remoteAssetBase = '';
-this.remoteConfigUrl = '/itemConfigs.json';        // Local file
-this.remoteItemsUrl = '/itemIds.json';            // Local file
-this.remoteIconsUrl = '/icons/TheCycleRebornSaveEditor-Assets-main/icons/';                  // Local folder
-this.init();
+this.remoteConfigUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-Item-Progress-Save-Editor/main/itemConfigs.json';
+this.remoteItemsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-Item-Progress-Save-Editor/main/itemIds.json';
+this.remoteIconsUrl = 'https://raw.githubusercontent.com/ConstanceV1/SP-Cycle-Item-Progress-Save-Editor/main/icons/';
+                console.log('📂 URLs set:', {
+                    config: this.remoteConfigUrl,
+                    items: this.remoteItemsUrl,
+                    icons: this.remoteIconsUrl
+                });
+                
+                // ===== THIS MUST BE HERE =====
+                console.log('🚀 Calling init()...');
+                this.init();
+                console.log('✅ init() returned!');
+                
                 this.bindEvents();
+                console.log('🏗️ Constructor finished!');
             }
 
             async init() {
+                console.log('🔥 init() is running!');
                 this.updateStatus('Initializing...');
+                
                 await this.loadItemConfigs();
                 await this.loadAvailableItems();
+                
                 this.setupWindowControls();
                 this.setupUpdateChecker();
                 this.autoConnectAndLoad();
                 this.updateStatus('Ready');
-            }
-
-            setupWindowControls() {
-                const minBtn = document.getElementById('minimize-btn');
-                const maxBtn = document.getElementById('maximize-btn');
-                const closeBtn = document.getElementById('close-btn');
-                if (window.electronAPI?.windowMinimize) {
-                    minBtn.addEventListener('click', () => window.electronAPI.windowMinimize());
-                    maxBtn.addEventListener('click', async () => { await window.electronAPI.windowMaximize();
-                        this.updateMaximizeBtn(); });
-                    closeBtn.addEventListener('click', () => window.electronAPI.windowClose());
-                    this.updateMaximizeBtn();
-                } else {
-                    document.querySelector('.title-bar').style.display = 'none';
-                    document.querySelector('.app').style.paddingTop = '0';
-                }
-            }
-
-            async updateMaximizeBtn() {
-                if (window.electronAPI?.windowIsMaximized) {
-                    const isMax = await window.electronAPI.windowIsMaximized();
-                    document.getElementById('maximize-btn').innerHTML = isMax ? '<i class="fas fa-clone"></i>' :
-                        '<i class="fas fa-square"></i>';
-                }
-            }
-
-            setupUpdateChecker() {
-                if (!window.electronAPI) return;
-                const btn = document.getElementById('update-btn');
-                btn.style.display = 'flex';
-                btn.addEventListener('click', () => this.checkUpdates());
-            }
-
-            async checkUpdates() {
-                if (!window.electronAPI?.checkForUpdates) return;
-                const btn = document.getElementById('update-btn');
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-                btn.disabled = true;
-                try {
-                    const result = await window.electronAPI.checkForUpdates();
-                    this.showToast(result.success ? '✅ Update check complete' : '❌ ' + result.message);
-                } catch (e) {
-                    this.showToast('❌ Update failed');
-                }
-                btn.innerHTML = '<i class="fas fa-rotate"></i>';
-                btn.disabled = false;
+                
+                console.log('✅ init() completed!');
+                console.log('📊 Final counts:', {
+                    itemConfigs: Object.keys(this.itemConfigs).length,
+                    availableItems: this.availableItems.length
+                });
             }
 
             async loadItemConfigs() {
+                console.log('🔄 loadItemConfigs() STARTED');
                 try {
+                    console.log('📡 Fetching configs from:', this.remoteConfigUrl);
                     const res = await fetch(this.remoteConfigUrl);
-                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    console.log('📡 Config response status:', res.status);
+                    
+                    if (!res.ok) {
+                        console.error('❌ HTTP Error:', res.status);
+                        throw new Error(`HTTP ${res.status}`);
+                    }
+                    
                     const data = await res.json();
+                    console.log('✅ Configs parsed! Keys:', Object.keys(data.itemConfigs || {}).length);
                     this.itemConfigs = data.itemConfigs || {};
                     this.rarityColors = data.rarityColors || {};
+                    console.log('✅ itemConfigs set to:', Object.keys(this.itemConfigs).length);
                 } catch (e) {
+                    console.error('❌❌❌ FATAL ERROR in loadItemConfigs:', e);
+                    console.error('    URL was:', this.remoteConfigUrl);
                     this.createFallbackConfigs();
                 }
+                console.log('🔄 loadItemConfigs() FINISHED');
             }
 
-            async loadAvailableItems() {
-                try {
-                    const res = await fetch(this.remoteItemsUrl);
-                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                    const items = await res.json();
-                    this.availableItems = items;
-                    this.itemTemplates = {};
-                    for (const entry of items) {
-                        if (entry.baseItemId) this.itemTemplates[entry.baseItemId] = entry;
-                    }
-                } catch (e) {
-                    this.availableItems = [];
-                    this.itemTemplates = {};
-                }
-            }
+  async loadAvailableItems() {
+    console.log('🔄 loadAvailableItems() STARTED');
+    try {
+        console.log('📡 Fetching items from itemConfigs...');
+        const res = await fetch(this.remoteConfigUrl);
+        console.log('📡 Response status:', res.status);
+        
+        if (!res.ok) {
+            console.error('❌ HTTP Error:', res.status);
+            throw new Error(`HTTP ${res.status}`);
+        }
+        
+        const data = await res.json();
+        console.log('✅ Configs parsed!');
+        
+        // Convert itemConfigs object to array
+        const items = Object.keys(data.itemConfigs || {}).map(key => ({
+            baseItemId: key,
+            ...data.itemConfigs[key]
+        }));
+        
+        console.log('✅ Items created from configs! Count:', items.length);
+        
+        if (items.length > 0) {
+            console.log('📦 First 3 items:', items.slice(0, 3));
+        }
+        
+        this.availableItems = items;
+        this.itemTemplates = {};
+        for (const entry of items) {
+            if (entry.baseItemId) this.itemTemplates[entry.baseItemId] = entry;
+        }
+        console.log('✅ availableItems set to:', this.availableItems.length);
+    } catch (e) {
+        console.error('❌❌❌ FATAL ERROR in loadAvailableItems:', e);
+        console.error('    URL was:', this.remoteConfigUrl);
+        this.availableItems = [];
+        this.itemTemplates = {};
+    }
+    console.log('🔄 loadAvailableItems() FINISHED');
+}
 
             createFallbackConfigs() {
+                console.log('⚠️ Creating fallback configs');
                 this.itemConfigs = {};
                 this.rarityColors = {
                     common: '#9e9e9e',
@@ -1805,7 +1802,7 @@ this.init();
                 };
             }
 
-            // ============ PAGE NAVIGATION ============
+            // ===== PAGE NAVIGATION =====
             switchPage(page) {
                 this.currentPage = page;
                 const inventoryPage = document.getElementById('inventory-wrapper');
@@ -1835,6 +1832,53 @@ this.init();
                     progressBtn.classList.add('active');
                     inventoryBtn.classList.remove('active');
                 }
+            }
+
+            setupWindowControls() {
+                const minBtn = document.getElementById('minimize-btn');
+                const maxBtn = document.getElementById('maximize-btn');
+                const closeBtn = document.getElementById('close-btn');
+                if (window.electronAPI?.windowMinimize) {
+                    minBtn.addEventListener('click', () => window.electronAPI.windowMinimize());
+                    maxBtn.addEventListener('click', async () => {
+                        await window.electronAPI.windowMaximize();
+                        this.updateMaximizeBtn();
+                    });
+                    closeBtn.addEventListener('click', () => window.electronAPI.windowClose());
+                    this.updateMaximizeBtn();
+                } else {
+                    document.querySelector('.title-bar').style.display = 'none';
+                    document.querySelector('.app').style.paddingTop = '0';
+                }
+            }
+
+            async updateMaximizeBtn() {
+                if (window.electronAPI?.windowIsMaximized) {
+                    const isMax = await window.electronAPI.windowIsMaximized();
+                    document.getElementById('maximize-btn').innerHTML = isMax ? '<i class="fas fa-clone"></i>' : '<i class="fas fa-square"></i>';
+                }
+            }
+
+            setupUpdateChecker() {
+                if (!window.electronAPI) return;
+                const btn = document.getElementById('update-btn');
+                btn.style.display = 'flex';
+                btn.addEventListener('click', () => this.checkUpdates());
+            }
+
+            async checkUpdates() {
+                if (!window.electronAPI?.checkForUpdates) return;
+                const btn = document.getElementById('update-btn');
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                btn.disabled = true;
+                try {
+                    const result = await window.electronAPI.checkForUpdates();
+                    this.showToast(result.success ? '✅ Update check complete' : '❌ ' + result.message);
+                } catch (e) {
+                    this.showToast('❌ Update failed');
+                }
+                btn.innerHTML = '<i class="fas fa-rotate"></i>';
+                btn.disabled = false;
             }
 
             async autoConnectAndLoad() {
@@ -1892,7 +1936,22 @@ this.init();
                 } catch (e) {}
             }
 
-            // ============ FACTION FUNCTIONS ============
+            async saveBalance() {
+                try {
+                    const bal = {
+                        AU: parseInt(document.getElementById('aurum-value').value) || 0,
+                        SC: parseInt(document.getElementById('kmarks-value').value) || 0,
+                        IN: parseInt(document.getElementById('insurance-value').value) || 0
+                    };
+                    await fetch(`${this.apiBaseUrl}/balance`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(bal)
+                    });
+                } catch (e) {}
+            }
+
+            // ===== FACTION FUNCTIONS =====
             async setFaction(faction, value = 999999) {
                 try {
                     const response = await fetch(`${this.apiBaseUrl}/faction`, {
@@ -1913,7 +1972,6 @@ this.init();
                 await this.setFaction('Osiris');
             }
 
-            // ============ FORGE ARMOR ============
             async giveForgeArmor() {
                 const forgeItems = [
                     {"itemId":"056a70b6-019b-43c6-a757-97914e205352","baseItemId":"Helmet_Altered_03","primaryVanityId":0,"secondaryVanityId":0,"amount":1,"durability":1000,"modData":{"m":[]},"rolledPerks":[{"i":4,"r":1},{"i":5,"r":0}],"insurance":"","insuranceOwnerPlayfabId":"4BEA22D4219F4FD5","insuredAttachmentId":"","origin":{"t":"","p":"","g":""}},
@@ -1935,7 +1993,6 @@ this.init();
                 this.showToast('✅ Forge Armor set added!');
             }
 
-            // ============ GENERATOR FIX ============
             async generatorFix() {
                 try {
                     const response = await fetch(`${this.apiBaseUrl}/generator-fix`, {
@@ -1959,7 +2016,6 @@ this.init();
                 }
             }
 
-            // ============ MAX PLAYER QUARTERS ============
             async maxPlayerQuarters() {
                 try {
                     const response = await fetch(`${this.apiBaseUrl}/max-quarters`, {
@@ -1974,7 +2030,6 @@ this.init();
                 }
             }
 
-            // ============ SKIP BADUM ============
             async skipBadum() {
                 try {
                     const response = await fetch(`${this.apiBaseUrl}/skip-badum`, {
@@ -1989,7 +2044,6 @@ this.init();
                 }
             }
 
-            // ============ MAX TECH TREE ============
             async maxTechTree() {
                 try {
                     const response = await fetch(`${this.apiBaseUrl}/max-tech-tree`, {
@@ -2004,131 +2058,134 @@ this.init();
                 }
             }
 
-            async saveBalance() {
-                try {
-                    const bal = {
-                        AU: parseInt(document.getElementById('aurum-value').value) || 0,
-                        SC: parseInt(document.getElementById('kmarks-value').value) || 0,
-                        IN: parseInt(document.getElementById('insurance-value').value) || 0
-                    };
-                    await fetch(`${this.apiBaseUrl}/balance`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(bal)
-                    });
-                } catch (e) {}
-            }
-
+            // ===== RENDER FUNCTIONS =====
             renderInventory() {
-                const grid = document.getElementById('inventory-grid');
-                const filtered = this.inventory.filter(item => {
-                    if (!item?.baseItemId) return false;
-                    const config = this.getItemConfig(item.baseItemId);
-                    const matchCat = this.selectedCategory === 'all' || config.category === this.selectedCategory;
-                    const matchSearch = !this.currentFilter ||
-                        item.baseItemId.toLowerCase().includes(this.currentFilter) ||
-                        config.displayName.toLowerCase().includes(this.currentFilter);
-                    return matchCat && matchSearch;
-                });
+    const grid = document.getElementById('inventory-grid');
+    
+    // ===== FILTER: ONLY show items that exist in itemConfigs =====
+    const filtered = this.inventory.filter(item => {
+        if (!item?.baseItemId) return false;
+        
+        // ONLY show items that are in itemConfigs
+        if (!this.itemConfigs[item.baseItemId]) {
+            // Skip this item - it's not in itemConfigs
+            return false;
+        }
+        
+        const config = this.getItemConfig(item.baseItemId);
+        const matchCat = this.selectedCategory === 'all' || config.category === this.selectedCategory;
+        const matchSearch = !this.currentFilter ||
+            item.baseItemId.toLowerCase().includes(this.currentFilter) ||
+            config.displayName.toLowerCase().includes(this.currentFilter);
+        return matchCat && matchSearch;
+    });
+    // ===== END OF FILTER =====
 
-                document.getElementById('item-count').textContent = `${filtered.length} items`;
+    document.getElementById('item-count').textContent = `${filtered.length} items`;
 
-                if (filtered.length === 0) {
-                    grid.innerHTML = `
-                        <div class="empty-state">
-                            <div class="icon"><i class="fas fa-archive"></i></div>
-                            <div class="text">No items found</div>
-                            <div class="sub">Click <i class="fas fa-plus-circle"></i> Browse Items to add some</div>
-                        </div>
-                    `;
-                    return;
-                }
+    if (filtered.length === 0) {
+        grid.innerHTML = `
+            <div class="empty-state">
+                <div class="icon"><i class="fas fa-archive"></i></div>
+                <div class="text">No items found</div>
+                <div class="sub">Click <i class="fas fa-plus-circle"></i> Browse Items to add some</div>
+            </div>
+        `;
+        return;
+    }
 
-                grid.innerHTML = '';
-                filtered.forEach((item, idx) => {
-                    const config = this.getItemConfig(item.baseItemId);
-                    const icon = this.getItemIcon(item.baseItemId);
-                    const slot = document.createElement('div');
-                    slot.className = 'item-slot';
-                    slot.innerHTML = `
-                        <div class="rarity-glow ${config.rarity}"></div>
-                        <div class="item-image rarity-${config.rarity}" style="background-image:url('${icon}')"></div>
-                        <div class="item-name">${config.displayName}</div>
-                        <div class="item-amount">${item.amount || 1}</div>
-                    `;
-                    const img = slot.querySelector('.item-image');
-                    this.handleImageLoad(img, icon, item.baseItemId);
-                    const actualIndex = this.inventory.indexOf(item);
-                    slot.addEventListener('click', () => this.showItemDetail(item, actualIndex));
-                    grid.appendChild(slot);
-                });
-            }
+    grid.innerHTML = '';
+    filtered.forEach((item, idx) => {
+        const config = this.getItemConfig(item.baseItemId);
+        const icon = this.getItemIcon(item.baseItemId);
+        const slot = document.createElement('div');
+        slot.className = 'item-slot';
+        slot.innerHTML = `
+            <div class="rarity-glow ${config.rarity}"></div>
+            <div class="item-image rarity-${config.rarity}" style="background-image:url('${icon}')"></div>
+            <div class="item-name">${config.displayName}</div>
+            <div class="item-amount">${item.amount || 1}</div>
+        `;
+        const img = slot.querySelector('.item-image');
+        this.handleImageLoad(img, icon, item.baseItemId);
+        const actualIndex = this.inventory.indexOf(item);
+        slot.addEventListener('click', () => this.showItemDetail(item, actualIndex));
+        grid.appendChild(slot);
+    });
+}
 
             renderBrowseItems() {
-                const grid = document.getElementById('browse-grid');
-                grid.innerHTML = '';
+    console.log('🎯 Rendering browse items...');
+    console.log('  itemConfigs keys:', Object.keys(this.itemConfigs).length);
+    
+    const grid = document.getElementById('browse-grid');
+    if (!grid) {
+        console.error('❌ browse-grid element not found!');
+        return;
+    }
+    grid.innerHTML = '';
 
-                const unique = [];
-                const seen = new Set();
-                for (const item of this.availableItems) {
-                    if (item.baseItemId === "ShieldRestoration04") continue;
-                    if (!seen.has(item.baseItemId) && this.itemConfigs[item.baseItemId]) {
-                        unique.push(item);
-                        seen.add(item.baseItemId);
-                    }
-                }
+    // ===== ONLY USE itemConfigs =====
+    const items = Object.keys(this.itemConfigs).map(key => ({
+        baseItemId: key,
+        ...this.itemConfigs[key]
+    }));
 
-                let filtered = unique.filter(item => {
-                    const config = this.getItemConfig(item.baseItemId);
-                    const matchCat = this.selectedCategory === 'all' || config.category === this.selectedCategory;
-                    const matchSearch = !this.currentFilter ||
-                        config.displayName.toLowerCase().includes(this.currentFilter) ||
-                        item.baseItemId.toLowerCase().includes(this.currentFilter);
-                    return matchCat && matchSearch;
-                });
+    if (items.length === 0) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text-3);padding:32px;font-size:13px;">No items available.</div>';
+        return;
+    }
 
-                const rarityOrder = { legendary: 6, exotic: 5, epic: 4, rare: 3, uncommon: 2, common: 1 };
-                filtered.sort((a, b) => {
-                    const rarityA = rarityOrder[this.getItemConfig(a.baseItemId).rarity] || 0;
-                    const rarityB = rarityOrder[this.getItemConfig(b.baseItemId).rarity] || 0;
-                    return rarityB - rarityA;
-                });
+    const filtered = items.filter(item => {
+        const matchCat = this.selectedCategory === 'all' || item.category === this.selectedCategory;
+        const matchSearch = !this.currentFilter ||
+            item.displayName.toLowerCase().includes(this.currentFilter) ||
+            item.baseItemId.toLowerCase().includes(this.currentFilter);
+        return matchCat && matchSearch;
+    });
 
-                if (filtered.length === 0) {
-                    grid.innerHTML =
-                        '<div style="grid-column:1/-1;text-align:center;color:var(--text-3);padding:16px;font-size:11px;">No items match</div>';
-                    return;
-                }
+    const rarityOrder = { legendary: 6, exotic: 5, epic: 4, rare: 3, uncommon: 2, common: 1 };
+    filtered.sort((a, b) => {
+        const rarityA = rarityOrder[a.rarity] || 0;
+        const rarityB = rarityOrder[b.rarity] || 0;
+        return rarityB - rarityA;
+    });
 
-                filtered.forEach(item => {
-                    const config = this.getItemConfig(item.baseItemId);
-                    const icon = this.getItemIcon(item.baseItemId);
-                    const div = document.createElement('div');
-                    div.className = 'browse-item';
-                    div.innerHTML = `
-                        <span class="rarity-dot" style="background:${this.rarityColors[config.rarity] || '#666'}"></span>
-                        <div class="icon rarity-${config.rarity}" style="background-image:url('${icon}')"></div>
-                        <div class="info">
-                            <div class="name">${config.displayName}</div>
-                            <div class="meta">${config.category} · ${config.rarity}</div>
-                        </div>
-                        <div class="controls">
-                            <input type="number" value="1" min="1" max="999" id="qty-${item.baseItemId}">
-                            <button class="add-btn" data-id="${item.baseItemId}"><i class="fas fa-plus"></i> Add</button>
-                        </div>
-                    `;
-                    const img = div.querySelector('.icon');
-                    this.handleImageLoad(img, icon, item.baseItemId);
-                    const btn = div.querySelector('.add-btn');
-                    const input = div.querySelector('input');
-                    btn.addEventListener('click', () => {
-                        const qty = parseInt(input.value) || 1;
-                        this.addItemToInventory(item.baseItemId, qty);
-                    });
-                    grid.appendChild(div);
-                });
-            }
+    if (filtered.length === 0) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text-3);padding:16px;font-size:11px;">No items match your filters</div>';
+        return;
+    }
 
+    filtered.forEach(item => {
+        const icon = this.getItemIcon(item.baseItemId);
+        const div = document.createElement('div');
+        div.className = 'browse-item';
+        div.innerHTML = `
+            <span class="rarity-dot" style="background:${this.rarityColors[item.rarity] || '#666'}"></span>
+            <div class="icon rarity-${item.rarity}" style="background-image:url('${icon}')"></div>
+            <div class="info">
+                <div class="name">${item.displayName}</div>
+                <div class="meta">${item.category} · ${item.rarity}</div>
+            </div>
+            <div class="controls">
+                <input type="number" value="1" min="1" max="999" id="qty-${item.baseItemId}">
+                <button class="add-btn" data-id="${item.baseItemId}"><i class="fas fa-plus"></i> Add</button>
+            </div>
+        `;
+        const img = div.querySelector('.icon');
+        this.handleImageLoad(img, icon, item.baseItemId);
+        const btn = div.querySelector('.add-btn');
+        const input = div.querySelector('input');
+        btn.addEventListener('click', () => {
+            const qty = parseInt(input.value) || 1;
+            this.addItemToInventory(item.baseItemId, qty);
+        });
+        grid.appendChild(div);
+    });
+    console.log('✅ Rendered', filtered.length, 'items');
+}
+
+            // ===== ITEM MANAGEMENT =====
             addItemToInventory(baseItemId, quantity) {
                 const amount = parseInt(quantity) || 1;
                 const config = this.getItemConfig(baseItemId);
@@ -2233,6 +2290,7 @@ this.init();
                 return result;
             }
 
+            // ===== MODAL FUNCTIONS =====
             showItemDetail(item, index) {
                 this.currentEditingIndex = index;
                 const config = this.getItemConfig(item.baseItemId);
@@ -2322,16 +2380,19 @@ this.init();
                     no.removeEventListener('click', onNo);
                     close.removeEventListener('click', onNo);
                 };
-                const onYes = () => { cleanup();
-                    onConfirm(); };
+                const onYes = () => { cleanup(); onConfirm(); };
                 const onNo = () => { cleanup(); };
                 yes.addEventListener('click', onYes);
                 no.addEventListener('click', onNo);
                 close.addEventListener('click', onNo);
             }
 
+            // ===== ITEM CONFIG HELPERS =====
             getItemConfig(baseItemId) {
                 if (this.itemConfigs[baseItemId]) return this.itemConfigs[baseItemId];
+ console.warn('⚠️ Missing config for:', baseItemId);
+    console.log('  Available configs:', Object.keys(this.itemConfigs).slice(0, 10));
+
                 return {
                     displayName: this.cleanDisplayName(baseItemId),
                     category: this.guessCategory(baseItemId),
@@ -2347,8 +2408,7 @@ this.init();
                 if (i.includes('wp_')) return 'weapons';
                 if (i.includes('consumable')) return 'consumables';
                 if (i.includes('shield') || i.includes('helmet') || i.includes('bag') || i.includes('vest')) return 'armor';
-                if (i.includes('light') || i.includes('medium') || i.includes('heavy') || i.includes('shotgun') || i.includes(
-                        'special')) return 'ammo';
+                if (i.includes('light') || i.includes('medium') || i.includes('heavy') || i.includes('shotgun') || i.includes('special')) return 'ammo';
                 if (i.includes('tool') || i.includes('scanner')) return 'tools';
                 if (i.includes('mod_')) return 'attachments';
                 return 'materials';
@@ -2368,11 +2428,9 @@ this.init();
                 const i = id.toLowerCase();
                 if (i.includes('oldcurrency') || i.includes('old_currency')) return 999999;
                 if (i.includes('consumable') || i.includes('grenade')) return 5;
-                if (i.includes('light') || i.includes('medium') || i.includes('heavy') || i.includes('shotgun') || i.includes(
-                        'special')) return 250;
+                if (i.includes('light') || i.includes('medium') || i.includes('heavy') || i.includes('shotgun') || i.includes('special')) return 250;
                 if (i.includes('veltecite') || i.includes('nickel') || i.includes('materials')) return 100;
-                if (i.includes('wp_') || i.includes('helmet') || i.includes('shield') || i.includes('bag') || i.includes(
-                        'vest')) return 1;
+                if (i.includes('wp_') || i.includes('helmet') || i.includes('shield') || i.includes('bag') || i.includes('vest')) return 1;
                 return 20;
             }
 
@@ -2410,6 +2468,7 @@ this.init();
                 });
             }
 
+            // ===== IMAGE HANDLING =====
             handleImageLoad(element, imagePath, itemId) {
                 if (this.imageErrors.has(imagePath)) {
                     element.classList.add('error');
@@ -2427,6 +2486,7 @@ this.init();
                 img.src = imagePath;
             }
 
+            // ===== STATUS & UI =====
             updateStatus(msg) {
                 const el = document.getElementById('status-text');
                 if (el) el.textContent = msg;
@@ -2483,89 +2543,7 @@ this.init();
                 setInterval(() => this.pingUserStats(), 300000);
             }
 
-            bindEvents() {
-                // Page navigation
-                document.getElementById('btn-inventory').addEventListener('click', () => this.switchPage('inventory'));
-                document.getElementById('btn-progress').addEventListener('click', () => this.switchPage('progress'));
-
-                document.querySelectorAll('.sidebar-btn[data-category]').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        document.querySelectorAll('.sidebar-btn[data-category]').forEach(b => b.classList
-                            .remove('active'));
-                        btn.classList.add('active');
-                        this.selectedCategory = btn.dataset.category;
-                        this.renderInventory();
-                        if (this.browseOpen) this.renderBrowseItems();
-                    });
-                });
-
-                document.getElementById('browse-btn').addEventListener('click', () => {
-                    if (this.currentPage === 'progress') {
-                        this.switchPage('inventory');
-                    }
-                    this.browseOpen = !this.browseOpen;
-                    document.getElementById('browse-panel').classList.toggle('open', this.browseOpen);
-                    if (this.browseOpen) this.renderBrowseItems();
-                });
-                document.getElementById('close-browse').addEventListener('click', () => {
-                    this.browseOpen = false;
-                    document.getElementById('browse-panel').classList.remove('open');
-                });
-
-                document.getElementById('search-input').addEventListener('input', (e) => {
-                    this.currentFilter = e.target.value.toLowerCase();
-                    this.renderInventory();
-                    if (this.browseOpen) this.renderBrowseItems();
-                });
-
-                document.getElementById('clear-btn').addEventListener('click', () => this.clearInventory());
-                document.getElementById('backup-btn').addEventListener('click', () => this.exportBackup());
-                document.getElementById('restore-btn').addEventListener('click', () => this.importBackup());
-                document.getElementById('reload-btn').addEventListener('click', () => this.reloadAll());
-                document.getElementById('reload-header-btn').addEventListener('click', () => this.reloadAll());
-
-                ['aurum-value', 'kmarks-value', 'insurance-value'].forEach(id => {
-                    document.getElementById(id).addEventListener('change', () => this.saveBalance());
-                });
-
-                document.getElementById('modal-close').addEventListener('click', () => this.closeModal());
-                document.getElementById('modal-overlay').addEventListener('click', (e) => {
-                    if (e.target === e.currentTarget) this.closeModal();
-                });
-
-                document.getElementById('confirm-overlay').addEventListener('click', (e) => {
-                    if (e.target === e.currentTarget) document.getElementById('confirm-overlay').classList.remove(
-                        'open');
-                });
-
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') {
-                        this.closeModal();
-                        document.getElementById('confirm-overlay').classList.remove('open');
-                    }
-                    if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
-                        e.preventDefault();
-                        document.getElementById('search-input').focus();
-                    }
-                });
-
-                // ============ PROGRESS BUTTONS ============
-                document.getElementById('faction-all').addEventListener('click', () => this.setAllFactions());
-                document.getElementById('faction-korolev').addEventListener('click', () => this.setFaction('Korolev'));
-                document.getElementById('faction-ica').addEventListener('click', () => this.setFaction('ICA'));
-                document.getElementById('faction-osiris').addEventListener('click', () => this.setFaction('Osiris'));
-
-                document.getElementById('forge-armor-btn').addEventListener('click', () => this.giveForgeArmor());
-
-                document.getElementById('generator-fix-btn').addEventListener('click', () => this.generatorFix());
-
-                document.getElementById('max-quarters-btn').addEventListener('click', () => this.maxPlayerQuarters());
-
-                document.getElementById('skip-badum-btn').addEventListener('click', () => this.skipBadum());
-
-                document.getElementById('max-tech-tree-btn').addEventListener('click', () => this.maxTechTree());
-            }
-
+            // ===== BACKUP FUNCTIONS =====
             exportBackup() {
                 const data = { timestamp: new Date().toISOString(), inventory: this.inventory };
                 const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -2613,8 +2591,85 @@ this.init();
                 if (this.browseOpen) this.renderBrowseItems();
                 this.showToast('✅ Reloaded');
             }
+
+            // ===== BIND EVENTS =====
+            bindEvents() {
+                document.getElementById('btn-inventory').addEventListener('click', () => this.switchPage('inventory'));
+                document.getElementById('btn-progress').addEventListener('click', () => this.switchPage('progress'));
+
+                document.querySelectorAll('.sidebar-btn[data-category]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.sidebar-btn[data-category]').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        this.selectedCategory = btn.dataset.category;
+                        this.renderInventory();
+                        if (this.browseOpen) this.renderBrowseItems();
+                    });
+                });
+
+                document.getElementById('browse-btn').addEventListener('click', () => {
+                    if (this.currentPage === 'progress') {
+                        this.switchPage('inventory');
+                    }
+                    this.browseOpen = !this.browseOpen;
+                    document.getElementById('browse-panel').classList.toggle('open', this.browseOpen);
+                    if (this.browseOpen) this.renderBrowseItems();
+                });
+                document.getElementById('close-browse').addEventListener('click', () => {
+                    this.browseOpen = false;
+                    document.getElementById('browse-panel').classList.remove('open');
+                });
+
+                document.getElementById('search-input').addEventListener('input', (e) => {
+                    this.currentFilter = e.target.value.toLowerCase();
+                    this.renderInventory();
+                    if (this.browseOpen) this.renderBrowseItems();
+                });
+
+                document.getElementById('clear-btn').addEventListener('click', () => this.clearInventory());
+                document.getElementById('backup-btn').addEventListener('click', () => this.exportBackup());
+                document.getElementById('restore-btn').addEventListener('click', () => this.importBackup());
+                document.getElementById('reload-btn').addEventListener('click', () => this.reloadAll());
+                document.getElementById('reload-header-btn').addEventListener('click', () => this.reloadAll());
+
+                ['aurum-value', 'kmarks-value', 'insurance-value'].forEach(id => {
+                    document.getElementById(id).addEventListener('change', () => this.saveBalance());
+                });
+
+                document.getElementById('modal-close').addEventListener('click', () => this.closeModal());
+                document.getElementById('modal-overlay').addEventListener('click', (e) => {
+                    if (e.target === e.currentTarget) this.closeModal();
+                });
+
+                document.getElementById('confirm-overlay').addEventListener('click', (e) => {
+                    if (e.target === e.currentTarget) document.getElementById('confirm-overlay').classList.remove('open');
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.closeModal();
+                        document.getElementById('confirm-overlay').classList.remove('open');
+                    }
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                        e.preventDefault();
+                        document.getElementById('search-input').focus();
+                    }
+                });
+
+                // Progress buttons
+                document.getElementById('faction-all').addEventListener('click', () => this.setAllFactions());
+                document.getElementById('faction-korolev').addEventListener('click', () => this.setFaction('Korolev'));
+                document.getElementById('faction-ica').addEventListener('click', () => this.setFaction('ICA'));
+                document.getElementById('faction-osiris').addEventListener('click', () => this.setFaction('Osiris'));
+                document.getElementById('forge-armor-btn').addEventListener('click', () => this.giveForgeArmor());
+                document.getElementById('generator-fix-btn').addEventListener('click', () => this.generatorFix());
+                document.getElementById('max-quarters-btn').addEventListener('click', () => this.maxPlayerQuarters());
+                document.getElementById('skip-badum-btn').addEventListener('click', () => this.skipBadum());
+                document.getElementById('max-tech-tree-btn').addEventListener('click', () => this.maxTechTree());
+            }
         }
 
+        // ===== CREATE THE EDITOR =====
         const editor = new CycleRebornEditor();
         console.log(`
         ╔═══════════════════════════════════════════╗
