@@ -9,7 +9,7 @@ class AutoUpdater {
     constructor(options = {}) {
         // UPDATED: Use your new GitHub repo
         this.githubOwner = options.githubOwner || 'ConstanceV1';
-        this.githubRepo = options.githubRepo || 'SPCycle-Editor';
+this.githubRepo = options.githubRepo || 'SP-Cycle-Item-Progress-Save-Editor';
         this.currentVersion = app.getVersion();
         this.updateCheckUrl = `https://api.github.com/repos/${this.githubOwner}/${this.githubRepo}/releases/latest`;
         this.downloadDir = path.join(app.getPath('temp'), 'app-updates');
