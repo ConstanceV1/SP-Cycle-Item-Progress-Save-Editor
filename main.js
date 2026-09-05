@@ -61,7 +61,7 @@ startServer()
       mainWindow.loadURL(SERVER_URL + '?v=' + Date.now());
 
 // ADD THIS LINE TO OPEN DEVTOOLS AUTOMATICALLY
-mainWindow.webContents.openDevTools();
+//mainWindow.webContents.openDevTools();
       
       // Show window when ready
       mainWindow.once('ready-to-show', () => {
