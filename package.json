@@ -1,0 +1,205 @@
+{
+  "name": "sp-cycle-editor",
+  "version": "2.1.0",
+  "description": "SP Cycle Item/Progress Save Editor - Edit your inventory and progress through MongoDB with automatic updates",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "concurrently \"npm run server\" \"wait-on http://localhost:3000 && electron .\"",
+    "server": "node server.js",
+    "build": "electron-builder",
+    "build-win": "electron-builder --win",
+    "build-mac": "electron-builder --mac",
+    "build-linux": "electron-builder --linux",
+    "pack": "electron-builder --dir",
+    "dist": "npm run build",
+    "setup": "npm install && echo 'Setup complete! Run npm start to launch the desktop app'",
+    "test": "node -e \"console.log('Testing MongoDB connection...'); require('./server.js');\"",
+    "clean": "rmdir /s /q dist 2>nul & rmdir /s /q node_modules\\.cache 2>nul & echo Cache cleared",
+    "release": "npm run build && echo 'Build complete! Upload the executable to GitHub releases.'",
+    "postversion": "git push && git push --tags"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongodb": "^6.0.0"
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "concurrently": "^8.2.2",
+    "electron-builder": "^24.9.1",
+    "wait-on": "^7.2.0",
+    "nodemon": "^3.0.1"
+  },
+  "build": {
+    "appId": "com.spcycle.editor",
+    "productName": "SP Cycle Item/Progress Save Editor",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "server.js",
+      "preload.js",
+      "updater.js",
+      "gameLauncher.js",
+      "public/**/*",
+      "index.html",
+      "itemIds.json",
+      "itemConfigs.json",
+      "gameConfig.json",
+      "node_modules/**/*",
+      "!node_modules/.cache",
+      "!node_modules/electron-builder",
+      "!node_modules/nodemon",
+      "!node_modules/concurrently",
+      "!node_modules/wait-on",
+      "!node_modules/electron-reload"
+    ],
+    "extraResources": [
+      {
+        "from": "assets/",
+        "to": "assets/",
+        "filter": ["**/*"]
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        },
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "spclogo.ico",
+      "publisherName": "Constance",
+      "verifyUpdateCodeSignature": false,
+      "requestedExecutionLevel": "asInvoker",
+      "artifactName": "SP-Cycle-Editor-v${version}-${os}-${arch}.${ext}"
+    },
+    "portable": {
+      "artifactName": "SP-Cycle-Editor-v${version}.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "SP-Cycle-Editor-Setup-v${version}.exe",
+      "shortcutName": "SP Cycle Editor",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "installerIcon": "spclogo.ico",
+      "uninstallerIcon": "spclogo.ico",
+      "installerHeaderIcon": "spclogo.ico"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "icon": "spclogo.icns",
+      "category": "public.app-category.games",
+      "artifactName": "SP-Cycle-Editor-v${version}-${os}-${arch}.${ext}",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist"
+    },
+    "dmg": {
+      "title": "SP Cycle Editor ${version}",
+      "artifactName": "SP-Cycle-Editor-v${version}-mac.dmg"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        },
+        {
+          "target": "tar.gz",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "spclogo.png",
+      "category": "Game",
+      "artifactName": "SP-Cycle-Editor-v${version}-${os}-${arch}.${ext}",
+      "desktop": {
+        "Name": "SP Cycle Editor",
+        "Comment": "Edit your SP Cycle save files",
+        "Categories": "Game;Utility;",
+        "Keywords": "cycle;reborn;save;editor;mongodb;spcycle;"
+      }
+    },
+    "appImage": {
+      "artifactName": "SP-Cycle-Editor-v${version}-linux.AppImage"
+    },
+    "deb": {
+      "artifactName": "SP-Cycle-Editor-v${version}-linux.deb"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "ConstanceV1",
+        "repo": "SPCycle-Editor",
+        "releaseType": "release"
+      }
+    ],
+    "compression": "normal"
+  },
+  "keywords": [
+    "cycle",
+    "reborn",
+    "frontier",
+    "spcycle",
+    "save",
+    "editor",
+    "mongodb",
+    "game",
+    "inventory",
+    "progress",
+    "electron",
+    "desktop",
+    "auto-update",
+    "github"
+  ],
+  "author": {
+    "name": "Constance",
+    "url": "https://github.com/ConstanceV1"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ConstanceV1/SPCycle-Editor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ConstanceV1/SPCycle-Editor/issues"
+  },
+  "homepage": "https://github.com/ConstanceV1/SPCycle-Editor#readme",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
+  "config": {
+    "mongoUrl": "mongodb://localhost:27017",
+    "database": "ProspectDb",
+    "collection": "PlayFabUserData",
+    "inventoryKey": "Inventory"
+  },
+  "electronUpdater": {
+    "provider": "github",
+    "owner": "ConstanceV1",
+    "repo": "SPCycle-Editor"
+  }
+}
