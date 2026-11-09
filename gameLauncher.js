@@ -1,11 +1,11 @@
 const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const { dialog } = require('electron');
+const { app, dialog } = require('electron');
 
 class GameLauncher {
     constructor() {
-        this.configPath = path.join(__dirname, 'gameConfig.json');
+        this.configPath = path.join(app.getPath('userData'), 'gameConfig.json');
         this.config = this.loadConfig();
         this.serverProcess = null;
         this.clientProcess = null;
@@ -13,8 +13,10 @@ class GameLauncher {
 
     loadConfig() {
         try {
-            if (fs.existsSync(this.configPath)) {
-                const data = fs.readFileSync(this.configPath, 'utf8');
+            const legacy=path.join(__dirname,'gameConfig.json');
+            const source=fs.existsSync(this.configPath)?this.configPath:legacy;
+            if (fs.existsSync(source)) {
+                const data = fs.readFileSync(source, 'utf8');
                 return JSON.parse(data);
             }
         } catch (error) {

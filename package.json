@@ -1,6 +1,6 @@
 {
   "name": "sp-cycle-editor",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "SP Cycle Item/Progress Save Editor - Edit your inventory and progress through MongoDB with automatic updates",
   "main": "main.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "pack": "electron-builder --dir",
     "dist": "npm run build",
     "setup": "npm install && echo 'Setup complete! Run npm start to launch the desktop app'",
-    "test": "node -e \"console.log('Testing MongoDB connection...'); require('./server.js');\"",
+    "test": "node --test tests/*.test.cjs",
     "clean": "rmdir /s /q dist 2>nul & rmdir /s /q node_modules\\.cache 2>nul & echo Cache cleared",
     "release": "npm run build && echo 'Build complete! Upload the executable to GitHub releases.'",
     "postversion": "git push && git push --tags"
@@ -22,7 +22,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "mongodb": "^6.0.0"
+    "mongodb": "^6.0.0",
+    "electron-updater": "6.8.12"
   },
   "devDependencies": {
     "electron": "^28.0.0",
@@ -54,24 +55,22 @@
       "!node_modules/nodemon",
       "!node_modules/concurrently",
       "!node_modules/wait-on",
-      "!node_modules/electron-reload"
-    ],
-    "extraResources": [
-      {
-        "from": "assets/",
-        "to": "assets/",
-        "filter": ["**/*"]
-      }
+      "!node_modules/electron-reload",
+      "editor-safety.js"
     ],
     "win": {
       "target": [
         {
           "target": "portable",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         },
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "icon": "spclogo.ico",
@@ -98,11 +97,17 @@
       "target": [
         {
           "target": "dmg",
-          "arch": ["x64", "arm64"]
+          "arch": [
+            "x64",
+            "arm64"
+          ]
         },
         {
           "target": "zip",
-          "arch": ["x64", "arm64"]
+          "arch": [
+            "x64",
+            "arm64"
+          ]
         }
       ],
       "icon": "spclogo.icns",
@@ -121,15 +126,21 @@
       "target": [
         {
           "target": "AppImage",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         },
         {
           "target": "deb",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         },
         {
           "target": "tar.gz",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "icon": "spclogo.png",
@@ -152,7 +163,7 @@
       {
         "provider": "github",
         "owner": "ConstanceV1",
-        "repo": "SPCycle-Editor",
+        "repo": "SP-Cycle-Item-Progress-Save-Editor",
         "releaseType": "release"
       }
     ],

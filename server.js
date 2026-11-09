@@ -5,6 +5,9 @@ const path = require('path');
 const crypto = require('crypto');
 const os = require('os');
 
+const {scopeDatabase,validateWrite}=require('./editor-safety');
+const fs=require('fs');
+const SESSION=process.env.SPC_EDITOR_SESSION || crypto.randomBytes(32).toString('hex');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -33,13 +36,21 @@ function generateAnonymousId() {
 }
 
 // Middleware
-app.use(cors());
+app.use((req,res,next)=>{
+ const origin=req.get('Origin');
+ if(origin && !['http://localhost:'+PORT,'http://127.0.0.1:'+PORT].includes(origin))return res.status(403).json({message:'Untrusted origin'});
+ if(req.path.startsWith('/api/') && req.path!='/api/health' && req.get('X-SPC-Session')!==SESSION)return res.status(403).json({message:'Open the editor desktop application to continue.'});
+ next();
+});
 app.use(express.json({ limit: '10mb' }));
-app.use(express.static(path.join(__dirname)));
+app.use('/public',express.static(path.join(__dirname,'public')));
+app.use('/api',(req,res,next)=>{try{if(['PUT','POST','DELETE'].includes(req.method))validateWrite(req.path,req.body);next();}catch(e){res.status(400).json({success:false,message:e.message});}});
 
 // Serve the main HTML file
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+app.get(['/','/index.html'], (req, res) => {
+    let html=fs.readFileSync(path.join(__dirname,'index.html'),'utf8');
+ const inject='<script>const spcFetch=window.fetch.bind(window);window.fetch=(url,options={})=>{const u=new URL(url,location.href);if(u.origin===location.origin && u.pathname.startsWith("/api/")){options={...options,headers:{...options.headers,"X-SPC-Session":'+JSON.stringify(SESSION)+'}};}return spcFetch(url,options);};</script>';
+ res.type('html').send(html.replace('<head>','<head>'+inject));
 });
 
 // ============================================================
@@ -115,6 +126,7 @@ app.post('/api/connect', async (req, res) => {
         console.log(`Database: ${DB_NAME}`);
         console.log(`Collection: ${COLLECTION_NAME}`);
 
+        db = null;
         if (client) {
             await client.close();
             console.log('Closed existing connection');
@@ -128,7 +140,13 @@ app.post('/api/connect', async (req, res) => {
         await client.connect();
         console.log('Connected to MongoDB server');
 
-        db = client.db(DB_NAME);
+        const raw=client.db(DB_NAME);
+        const ids=await raw.collection(COLLECTION_NAME).distinct('PlayFabId');
+        let selected=req.body && req.body.playerId;
+        if(ids.length>1 && !ids.includes(selected))return res.status(409).json({success:false,message:'Choose the player to edit.',players:ids});
+        if(ids.length===1)selected=ids[0];
+        if(!ids.length && await raw.collection(COLLECTION_NAME).countDocuments({Key:INVENTORY_KEY})>1)throw Error('Multiple unlabelled player inventories. Refusing to guess which save to edit.');
+        db=scopeDatabase(raw,selected===undefined?null:selected,process.env.SPC_EDITOR_BACKUPS || path.join(os.homedir(),'.spcycle-editor','backups'));
         console.log(`Selected database: ${DB_NAME}`);
 
         const collection = db.collection(COLLECTION_NAME);
@@ -957,6 +975,8 @@ app.post('/api/max-tech-tree', async (req, res) => {
 app.get('/api/health', (req, res) => {
     res.json({
         status: 'OK',
+        application: 'spcycle-editor',
+        session: req.get('X-SPC-Session')===SESSION ? SESSION : null,
         connected: !!db,
         timestamp: new Date().toISOString(),
         config: {
@@ -1016,7 +1036,7 @@ process.on('SIGTERM', async () => {
 // START SERVER
 // ============================================================
 
-app.listen(PORT, () => {
+app.listen(PORT, '127.0.0.1', () => {
     console.log(`Server running on http://localhost:${PORT}`);
     console.log('='.repeat(50));
     console.log('SP Cycle Item/Progress Save Editor Backend');

@@ -1,3 +1,16 @@
+## Version 2.1.1
+
+Download **SP-Cycle-Editor-Setup-v2.1.1.exe** from Releases for the normal installation. The portable EXE is optional. `latest.yml` and `.blockmap` are updater files; players do not need to open them.
+
+This Editor edits **regular SPCycle**, not campaign checkpoints. Close the game before saving changes. Select the correct player ID when the database contains multiple players. Existing documents are backed up before changes under the Editor user-data folder's `backups` directory.
+
+Setup-installed 2.1.1 checks for updates automatically and asks before downloading and installing them. Older builds have inconsistent update-repository settings: install 2.1.1 manually once. Portable builds require manual replacement. Future Setup updates require the installer and matching `latest.yml`/blockmap release files.
+
+The API now binds to 127.0.0.1, requires the desktop session token, and rejects untrusted browser origins. Start the desktop application with `npm start`; opening an arbitrary browser tab is no longer an authenticated editing session.
+
+Validation: isolated API and mock-database tests; source/packaged-file comparison; Windows Setup and portable builds. Real player-database writes and an actual in-place Windows installation have not been exercised.
+
+---
 # 🔧 The Cycle: Reborn - Save Editor
 
 <div align="center">
@@ -6,7 +19,7 @@
 
 **A powerful desktop application for editing The Cycle: Reborn save files through MongoDB**
 
-[📥 **DOWNLOAD LATEST VERSION**](https://github.com/lxjo101/TheCycleRebornEditor/releases/latest) | [🐛 Report Bug](https://github.com/lxjo101/TheCycleRebornEditor/issues) | [💡 Request Feature](https://github.com/lxjo101/TheCycleRebornEditor/issues)
+[📥 **DOWNLOAD LATEST VERSION**](https://github.com/ConstanceV1/SP-Cycle-Item-Progress-Save-Editor/releases/latest) | [🐛 Report Bug](https://github.com/ConstanceV1/SP-Cycle-Item-Progress-Save-Editor/issues) | [💡 Request Feature](https://github.com/ConstanceV1/SP-Cycle-Item-Progress-Save-Editor/issues)
 
 </div>
 
@@ -45,7 +58,7 @@
 ## 🚀 Quick Start
 
 ### **Step 1: Download**
-📥 **[Download the latest release](https://github.com/lxjo101/TheCycleRebornEditor/releases/latest)**
+📥 **[Download the latest release](https://github.com/ConstanceV1/SP-Cycle-Item-Progress-Save-Editor/releases/latest)**
 
 ### **Step 2: Setup MongoDB**
 The save editor connects to your local MongoDB database automatically where The Cycle: Reborn stores save data.
@@ -172,7 +185,7 @@ The save editor connects to your local MongoDB database automatically where The 
 
 We welcome contributions! Here's how you can help:
 
-- 🐛 **Report bugs** in the [Issues section](https://github.com/lxjo101/TheCycleRebornEditor/issues)
+- 🐛 **Report bugs** in the [Issues section](https://github.com/ConstanceV1/SP-Cycle-Item-Progress-Save-Editor/issues)
 - 💡 **Suggest features** or improvements
 - 📝 **Improve documentation**
 - 🔧 **Submit pull requests** with fixes or enhancements
@@ -202,6 +215,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ⭐ **Star this repo** if you find it useful! ⭐
 
-[![GitHub stars](https://img.shields.io/github/stars/lxjo101/TheCycleRebornEditor?style=social)](https://github.com/lxjo101/TheCycleRebornEditor/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/lxjo101/TheCycleRebornEditor?style=social)](https://github.com/ConstanceV1/SP-Cycle-Item-Progress-Save-Editor/stargazers)
 
 </div>

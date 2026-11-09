@@ -9,7 +9,10 @@ let mainWindow;
 let serverProcess;
 let autoUpdater; // Auto-updater instance
 const SERVER_PORT = 3000;
-const SERVER_URL = `http://localhost:${SERVER_PORT}`;
+const SERVER_URL = `http://127.0.0.1:${SERVER_PORT}`;
+const SESSION=require('crypto').randomBytes(32).toString('hex');
+process.env.SPC_EDITOR_SESSION=SESSION;
+process.env.SPC_EDITOR_BACKUPS=path.join(app.getPath('userData'),'backups');
 
 // Enable live reload for development
 if (process.env.NODE_ENV === 'development') {
@@ -46,8 +49,8 @@ function createWindow() {
 
   // Initialize auto-updater
   autoUpdater = new AutoUpdater({
-    githubOwner: 'lxjo101', // Replace with your GitHub username
-    githubRepo: 'TheCycleRebornEditor' // Fixed repo name
+    githubOwner: 'ConstanceV1', // Replace with your GitHub username
+    githubRepo: 'SP-Cycle-Item-Progress-Save-Editor' // Fixed repo name
   });
 
   // Create application menu
@@ -59,14 +62,11 @@ startServer()
       console.log('Server started, loading application...');
       // Load the app
       mainWindow.loadURL(SERVER_URL + '?v=' + Date.now());
-
-// ADD THIS LINE TO OPEN DEVTOOLS AUTOMATICALLY
-//mainWindow.webContents.openDevTools();
-      
+      if (!app.isPackaged && process.env.NODE_ENV==='development') mainWindow.webContents.openDevTools();
       // Show window when ready
       mainWindow.once('ready-to-show', () => {
         mainWindow.show();
-        
+
         // Focus on window
         if (process.platform === 'darwin') {
           app.dock.show();
@@ -100,7 +100,7 @@ startServer()
   // Handle navigation
   mainWindow.webContents.on('will-navigate', (event, navigationUrl) => {
     const parsedUrl = new URL(navigationUrl);
-    
+
     // Allow navigation to our server
     if (parsedUrl.origin !== SERVER_URL) {
       event.preventDefault();
@@ -115,15 +115,15 @@ function getIconPath() {
     path.join(__dirname, 'assets', 'icon.png'),
     path.join(__dirname, 'assets', 'icon.ico'),
     path.join(__dirname, 'icon.png'),
-    path.join(__dirname, 'icon.ico')
+    path.join(__dirname, 'icon.ico'), path.join(__dirname,'spclogo.ico')
   ];
-  
+
   for (const iconPath of iconPaths) {
     if (fs.existsSync(iconPath)) {
       return iconPath;
     }
   }
-  
+
   return undefined; // Use default Electron icon
 }
 
@@ -146,22 +146,22 @@ function startServer() {
     // Check if server is already running
     const http = require('http');
     const request = http.request({
-      hostname: 'localhost',
+      hostname: '127.0.0.1',
+      headers: {'X-SPC-Session':SESSION},
       port: SERVER_PORT,
       path: '/api/health',
       method: 'GET',
       timeout: 1000
     }, (res) => {
-      console.log('Server already running');
-      resolve();
+      res.resume(); request.destroy(); reject(new Error('Port 3000 is occupied. Close the other editor or application and retry.'));
     });
 
     request.on('error', () => {
       // Server not running, start it
       console.log('Starting Express server...');
-      
+
       const serverScript = path.join(__dirname, 'server.js');
-      
+
       // Check if server.js exists
       if (!fs.existsSync(serverScript)) {
         reject(new Error('server.js not found'));
@@ -175,10 +175,10 @@ function startServer() {
       // For packaged apps, we need to use Electron's node and set up the environment
       const spawnOptions = {
         cwd: __dirname,
-        env: { 
-          ...process.env, 
+        env: { ELECTRON_RUN_AS_NODE:'1',
+          ...process.env,
           PORT: SERVER_PORT,
-          NODE_ENV: app.isPackaged ? 'production' : process.env.NODE_ENV 
+          NODE_ENV: app.isPackaged ? 'production' : process.env.NODE_ENV
         },
         stdio: process.env.NODE_ENV === 'development' ? 'inherit' : 'pipe'
       };
@@ -189,14 +189,14 @@ function startServer() {
         try {
           console.log('Starting server in same process...');
           require(serverScript);
-          
+
           // Wait a moment for server to start
           setTimeout(() => {
             checkServerHealth()
               .then(resolve)
               .catch(reject);
           }, 2000);
-          
+
           return;
         } catch (error) {
           console.log('Failed to start server in same process, trying spawn...');
@@ -226,6 +226,7 @@ function startServer() {
       }, 3000);
     });
 
+    request.on('timeout',()=>request.destroy(new Error('Editor server timed out')));
     request.end();
   });
 }
@@ -234,20 +235,21 @@ function checkServerHealth() {
   return new Promise((resolve, reject) => {
     let attempts = 0;
     const maxAttempts = 30; // 15 seconds
-    
+
     const checkServer = () => {
       attempts++;
-      
+
       const http = require('http');
       const request = http.request({
-        hostname: 'localhost',
+        hostname: '127.0.0.1',
+      headers: {'X-SPC-Session':SESSION},
         port: SERVER_PORT,
         path: '/api/health',
         method: 'GET',
         timeout: 500
       }, (res) => {
-        console.log('Server is ready');
-        resolve();
+let body='';res.on('data',c=>{body+=c;if(body.length>16384)request.destroy(new Error('Unexpected server response'));});
+        res.on('end',()=>{try{const v=JSON.parse(body);if(res.statusCode!==200||v.application!=='spcycle-editor'||v.session!==SESSION)throw Error('Port 3000 belongs to a different application.');resolve();}catch(e){reject(e);}});
       });
 
       request.on('error', () => {
@@ -258,7 +260,8 @@ function checkServerHealth() {
         }
       });
 
-      request.end();
+      request.on('timeout',()=>request.destroy(new Error('Editor server timed out')));
+    request.end();
     };
 
     checkServer();
@@ -300,7 +303,7 @@ app.on('window-all-closed', () => {
   if (serverProcess) {
     serverProcess.kill();
   }
-  
+
   if (process.platform !== 'darwin') {
     app.quit();
   }
@@ -405,22 +408,22 @@ function saveGameConfig(config) {
 ipcMain.handle('launch-game', async () => {
   try {
     console.log('=== STARTING GAME LAUNCH ===');
-    
+
     // Load saved configuration
     let gameConfig = loadGameConfig();
     console.log('Loaded config:', gameConfig);
-    
+
     let gamePath = gameConfig.gamePath;
     let serverPath = gameConfig.serverPath;
-    
+
     console.log('Initial paths:');
     console.log('  gamePath:', gamePath);
     console.log('  serverPath:', serverPath);
-    
+
     // If no saved paths, try to get them from user
     if (!gamePath || !serverPath) {
       console.log('No saved paths, asking user...');
-      
+
       // First, select the server API executable
       const serverResult = await dialog.showOpenDialog(mainWindow, {
         title: 'Select Prospect.Server.Api.exe',
@@ -453,9 +456,9 @@ ipcMain.handle('launch-game', async () => {
       console.log('User selected game folder:', gamePath);
 
       // Save both paths
-      saveGameConfig({ 
+      saveGameConfig({
         gamePath: gamePath,
-        serverPath: serverPath 
+        serverPath: serverPath
       });
     }
 
@@ -487,15 +490,15 @@ ipcMain.handle('launch-game', async () => {
         detached: false,
         stdio: 'pipe'
       });
-      
+
       testProcess.stdout.on('data', (data) => {
         console.log('Test output:', data.toString());
       });
-      
+
       testProcess.on('close', (code) => {
         console.log('Test process closed with code:', code);
       });
-      
+
       console.log('✓ Basic spawn works');
     } catch (error) {
       console.log('ERROR: Basic spawn failed:', error);
@@ -506,7 +509,7 @@ ipcMain.handle('launch-game', async () => {
     console.log('Attempting to launch server...');
     const serverDir = path.dirname(serverPath);
     console.log('Server directory:', serverDir);
-    
+
     try {
       const serverProcess = spawn(serverPath, [], {
         detached: true,
@@ -514,13 +517,13 @@ ipcMain.handle('launch-game', async () => {
         shell: false,
         cwd: serverDir
       });
-      
+
       console.log('Server spawn successful, PID:', serverProcess.pid);
       serverProcess.unref();
-      
+
       // Wait a moment
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
+
       // Check if process is still running
       try {
         process.kill(serverProcess.pid, 0); // Test if process exists
@@ -528,7 +531,7 @@ ipcMain.handle('launch-game', async () => {
       } catch (e) {
         console.log('WARNING: Server process may have exited');
       }
-      
+
     } catch (error) {
       console.log('ERROR launching server:', error);
       return { success: false, message: `Failed to start server: ${error.message}` };
@@ -536,17 +539,17 @@ ipcMain.handle('launch-game', async () => {
 
     // Try launching client
     console.log('Attempting to launch client...');
-    
+
     try {
       const clientProcess = spawn(clientPath, [], {
         detached: true,
         stdio: ['ignore', 'ignore', 'ignore'],
         shell: false
       });
-      
+
       console.log('Client spawn successful, PID:', clientProcess.pid);
       clientProcess.unref();
-      
+
       // Check if process is still running
       setTimeout(() => {
         try {
@@ -556,7 +559,7 @@ ipcMain.handle('launch-game', async () => {
           console.log('WARNING: Client process may have exited');
         }
       }, 1000);
-      
+
     } catch (error) {
       console.log('ERROR launching client:', error);
       return { success: false, message: `Failed to start client: ${error.message}` };
@@ -583,7 +586,7 @@ ipcMain.handle('configure-game-paths', async () => {
     if (fs.existsSync(gameConfigPath)) {
       fs.unlinkSync(gameConfigPath);
     }
-    
+
     // The next launch will prompt for folder selection
     return true;
   } catch (error) {
@@ -596,10 +599,10 @@ ipcMain.handle('check-game-configured', async () => {
   try {
     const config = loadGameConfig();
     if (!config.gamePath || !config.serverPath) return false;
-    
+
     // Verify the paths still exist and have the required files
     const clientPath = path.join(config.gamePath, 'Prospect', 'Binaries', 'Win64', 'Prospect.Client.Loader.exe');
-    
+
     return fs.existsSync(config.serverPath) && fs.existsSync(clientPath);
   } catch (error) {
     console.error('Error checking game configuration:', error);
